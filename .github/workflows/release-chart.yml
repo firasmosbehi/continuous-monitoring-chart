@@ -52,3 +52,4 @@ jobs:
           CR_GIT_REPO: "firasmosbehi/continuous-monitoring-chart"
           CR_PAGES_BRANCH: "gh-pages"
           CR_CHARTS_DIR: "charts"
+          CR_SKIP_EXISTING: "true"
