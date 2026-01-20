@@ -1,0 +1,20 @@
+{{- if and .Values.datasources.enabled .Values.datasources.prometheus.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-prometheus
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/part-of: datasources
+spec:
+  type: {{ .Values.datasources.prometheus.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.datasources.prometheus.service.port }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "continuous-monitoring.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: prometheus
+{{- end }}

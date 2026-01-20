@@ -1,0 +1,19 @@
+{{- if .Values.exporters.kubeStateMetrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-kube-state-metrics
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: kube-state-metrics
+spec:
+  type: {{ .Values.exporters.kubeStateMetrics.service.type }}
+  ports:
+    - name: metrics
+      port: {{ .Values.exporters.kubeStateMetrics.service.port }}
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    {{- include "continuous-monitoring.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: kube-state-metrics
+{{- end }}

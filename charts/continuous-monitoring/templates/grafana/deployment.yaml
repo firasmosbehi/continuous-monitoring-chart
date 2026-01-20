@@ -1,0 +1,88 @@
+{{- if .Values.grafana.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-grafana
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "continuous-monitoring.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: grafana
+  template:
+    metadata:
+      labels:
+        {{- include "continuous-monitoring.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: grafana
+    spec:
+      {{- $dashboardsEnabled := and .Values.dashboards.enabled (gt (len .Values.dashboards.definitions) 0) }}
+      {{- $datasourcesEnabled := and .Values.datasources.enabled (or .Values.datasources.prometheus.enabled .Values.datasources.loki.enabled) }}
+      containers:
+        - name: grafana
+          image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"
+          imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: "{{ .Values.grafana.adminUser }}"
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: "{{ .Values.grafana.adminPassword }}"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            {{- if $datasourcesEnabled }}
+            - name: grafana-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+              readOnly: true
+            {{- end }}
+            {{- if .Values.dashboards.enabled }}
+            - name: grafana-dashboard-provider
+              mountPath: /etc/grafana/provisioning/dashboards
+              readOnly: true
+            {{- end }}
+            {{- if $dashboardsEnabled }}
+            - name: grafana-dashboards
+              mountPath: /var/lib/grafana/dashboards
+              readOnly: true
+            {{- end }}
+          {{- with .Values.grafana.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        {{- if $datasourcesEnabled }}
+        - name: grafana-datasources
+          configMap:
+            name: {{ include "continuous-monitoring.fullname" . }}-datasources
+        {{- end }}
+        {{- if .Values.dashboards.enabled }}
+        - name: grafana-dashboard-provider
+          configMap:
+            name: {{ include "continuous-monitoring.fullname" . }}-dashboard-provider
+        {{- end }}
+        {{- if $dashboardsEnabled }}
+        - name: grafana-dashboards
+          projected:
+            sources:
+              {{- range $i, $def := .Values.dashboards.definitions }}
+              - configMap:
+                  name: {{ include "continuous-monitoring.fullname" $ }}-dashboard-{{ $i }}
+              {{- end }}
+        {{- end }}
+      {{- with .Values.grafana.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.grafana.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.grafana.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

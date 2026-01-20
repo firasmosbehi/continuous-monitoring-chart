@@ -1,0 +1,46 @@
+{{- if .Values.exporters.kubeStateMetrics.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-kube-state-metrics
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: kube-state-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "continuous-monitoring.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: kube-state-metrics
+  template:
+    metadata:
+      labels:
+        {{- include "continuous-monitoring.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: kube-state-metrics
+    spec:
+      serviceAccountName: {{ include "continuous-monitoring.fullname" . }}-kube-state-metrics
+      containers:
+        - name: kube-state-metrics
+          image: "{{ .Values.exporters.kubeStateMetrics.image.repository }}:{{ .Values.exporters.kubeStateMetrics.image.tag }}"
+          imagePullPolicy: {{ .Values.exporters.kubeStateMetrics.image.pullPolicy }}
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+          {{- with .Values.exporters.kubeStateMetrics.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.exporters.kubeStateMetrics.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.exporters.kubeStateMetrics.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.exporters.kubeStateMetrics.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

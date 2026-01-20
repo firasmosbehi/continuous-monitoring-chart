@@ -1,0 +1,20 @@
+{{- if .Values.dashboards.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-provider
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+data:
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: {{ .Values.dashboards.provider.name | quote }}
+        orgId: 1
+        folder: {{ .Values.dashboards.provider.folder | quote }}
+        type: {{ .Values.dashboards.provider.type | quote }}
+        disableDeletion: {{ .Values.dashboards.provider.disableDeletion }}
+        editable: {{ .Values.dashboards.provider.editable }}
+        options:
+          path: {{ .Values.dashboards.provider.options.path | quote }}
+{{- end }}

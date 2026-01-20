@@ -23,11 +23,3 @@ helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | quote }}
 app.kubernetes.io/name: {{ include "continuous-monitoring.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{- define "continuous-monitoring.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-{{- default (include "continuous-monitoring.fullname" .) .Values.serviceAccount.name -}}
-{{- else -}}
-{{- default "default" .Values.serviceAccount.name -}}
-{{- end -}}
-{{- end }}

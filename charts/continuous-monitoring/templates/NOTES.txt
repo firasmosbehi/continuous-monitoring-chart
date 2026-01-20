@@ -1,4 +1,0 @@
-Thanks for installing continuous-monitoring.
-
-To verify the release:
-  kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}

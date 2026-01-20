@@ -1,0 +1,18 @@
+{{- if .Values.dashboards.enabled }}
+{{- $root := . -}}
+{{- range $i, $def := .Values.dashboards.definitions }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "continuous-monitoring.fullname" $root }}-dashboard-{{ $i }}
+  labels:
+    {{- include "continuous-monitoring.labels" $root | nindent 4 }}
+    {{- with $root.Values.dashboards.configMapLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+data:
+  {{ $def.name }}.json: |-
+{{ $def.json | indent 4 }}
+---
+{{- end }}
+{{- end }}

@@ -1,0 +1,59 @@
+{{- if and .Values.datasources.enabled .Values.datasources.loki.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-loki
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: loki
+    app.kubernetes.io/part-of: datasources
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "continuous-monitoring.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: loki
+  template:
+    metadata:
+      labels:
+        {{- include "continuous-monitoring.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: loki
+    spec:
+      containers:
+        - name: loki
+          image: "{{ .Values.datasources.loki.image.repository }}:{{ .Values.datasources.loki.image.tag }}"
+          imagePullPolicy: {{ .Values.datasources.loki.image.pullPolicy }}
+          args:
+            - "-config.file=/etc/loki/loki.yaml"
+          ports:
+            - name: http
+              containerPort: 3100
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/loki
+            - name: data
+              mountPath: /var/loki
+          {{- with .Values.datasources.loki.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "continuous-monitoring.fullname" . }}-loki-config
+        - name: data
+          emptyDir: {}
+      {{- with .Values.datasources.loki.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.datasources.loki.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.datasources.loki.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

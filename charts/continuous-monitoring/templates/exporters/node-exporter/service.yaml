@@ -1,0 +1,19 @@
+{{- if .Values.exporters.nodeExporter.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-node-exporter
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: node-exporter
+spec:
+  type: {{ .Values.exporters.nodeExporter.service.type }}
+  ports:
+    - name: metrics
+      port: {{ .Values.exporters.nodeExporter.service.port }}
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    {{- include "continuous-monitoring.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: node-exporter
+{{- end }}
