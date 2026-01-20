@@ -5,7 +5,7 @@ Helm chart for deploying the Continuous Monitoring service.
 ## Install
 
 ```sh
-helm repo add continuous-monitoring https://your-org.github.io/continuous-monitoring
+helm repo add continuous-monitoring https://firasmosbehi.github.io/continuous-monitoring-chart
 helm install continuous-monitoring continuous-monitoring/continuous-monitoring
 ```
 
@@ -13,7 +13,7 @@ helm install continuous-monitoring continuous-monitoring/continuous-monitoring
 
 | Key | Type | Default | Description |
 | --- | ---- | ------- | ----------- |
-| image.repository | string | `"ghcr.io/your-org/continuous-monitoring"` | Container image repository. |
+| image.repository | string | `"ghcr.io/firasmosbehi/continuous-monitoring"` | Container image repository. |
 | image.tag | string | `"0.1.0"` | Container image tag. |
 | service.type | string | `"ClusterIP"` | Service type. |
 | service.port | int | `80` | Service port. |

@@ -11,13 +11,13 @@ keywords:
   - observability
   - continuous
 
-home: https://github.com/your-org/continuous-monitoring
+home: https://github.com/firasmosbehi/continuous-monitoring-chart
 sources:
-  - https://github.com/your-org/continuous-monitoring
+  - https://github.com/firasmosbehi/continuous-monitoring-chart
 
 maintainers:
-  - name: Your Name
-    email: you@example.com
+  - name: Firas Mosbehi
+    email: firas.mosbehi@insat.ucar.tn
 
 annotations:
   artifacthub.io/changes: |

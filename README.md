@@ -21,6 +21,10 @@ helm template continuous-monitoring charts/continuous-monitoring
 - Upload packaged chart and `index.yaml` to your hosting (GitHub Pages, S3, etc.)
 - Register the repo in Artifact Hub and keep `artifacthub-repo.yml` updated
 
+## Helm repo URL
+
+`https://firasmosbehi.github.io/continuous-monitoring-chart`
+
 ## License
 
 Apache-2.0
