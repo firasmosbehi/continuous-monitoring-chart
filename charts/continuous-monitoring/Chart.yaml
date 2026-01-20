@@ -1,0 +1,25 @@
+apiVersion: v2
+name: continuous-monitoring
+description: Helm chart for the Continuous Monitoring service
+
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+keywords:
+  - monitoring
+  - observability
+  - continuous
+
+home: https://github.com/your-org/continuous-monitoring
+sources:
+  - https://github.com/your-org/continuous-monitoring
+
+maintainers:
+  - name: Your Name
+    email: you@example.com
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: "Initial chart release."
