@@ -3,8 +3,8 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.0
-appVersion: "0.1.0"
+version: 0.1.1
+appVersion: "0.1.1"
 
 keywords:
   - monitoring
