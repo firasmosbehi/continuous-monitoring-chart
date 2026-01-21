@@ -4,9 +4,284 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Continuous Monitoring Helm Repo</title>
+    <meta
+      name="description"
+      content="A Helm chart for deploying a complete monitoring stack with Grafana, Prometheus, Loki, and exporters."
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap");
+
+      :root {
+        --bg: #f6f2e9;
+        --bg-2: #e7f0ef;
+        --ink: #1a1e1c;
+        --muted: #5c6a64;
+        --accent: #0f6b64;
+        --accent-2: #c8753c;
+        --card: #ffffff;
+        --line: #d9dedb;
+        --shadow: 0 18px 60px rgba(18, 35, 31, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", "Avenir Next", "Trebuchet MS", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top right, rgba(15, 107, 100, 0.12), transparent 45%),
+          radial-gradient(circle at 20% 20%, rgba(200, 117, 60, 0.12), transparent 40%),
+          linear-gradient(135deg, var(--bg), var(--bg-2));
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 56px 24px 24px;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        gap: 28px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        align-items: center;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        color: var(--accent);
+        background: rgba(15, 107, 100, 0.08);
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 4vw, 3.6rem);
+        margin: 12px 0 10px;
+        line-height: 1.1;
+      }
+
+      p {
+        color: var(--muted);
+        margin: 0 0 12px;
+        line-height: 1.6;
+      }
+
+      .cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid var(--line);
+        color: var(--ink);
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        margin: 28px 0 60px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+      }
+
+      .kicker {
+        color: var(--accent-2);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      pre {
+        background: #0f1412;
+        color: #f3f7f4;
+        padding: 16px;
+        border-radius: 14px;
+        font-family: "IBM Plex Mono", "Fira Mono", ui-monospace, monospace;
+        font-size: 0.9rem;
+        overflow-x: auto;
+      }
+
+      section {
+        padding: 0 24px;
+      }
+
+      footer {
+        padding: 40px 24px 60px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .fade-in {
+        animation: fadeIn 600ms ease-out both;
+      }
+
+      .stagger > * {
+        animation: fadeUp 600ms ease-out both;
+      }
+
+      .stagger > *:nth-child(2) {
+        animation-delay: 120ms;
+      }
+
+      .stagger > *:nth-child(3) {
+        animation-delay: 220ms;
+      }
+
+      .stagger > *:nth-child(4) {
+        animation-delay: 320ms;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Continuous Monitoring Helm Repository</h1>
-    <p>Helm index: <a href="index.yaml">index.yaml</a></p>
+    <header>
+      <div class="container hero fade-in">
+        <div>
+          <span class="badge">Helm Chart Repository</span>
+          <h1>Continuous Monitoring</h1>
+          <p>
+            A Helm chart for deploying a full observability stack with Grafana, Prometheus,
+            Loki, and exporters for node and Kubernetes state metrics. Built for clear defaults
+            and fast cluster visibility.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="index.yaml">View Helm index</a>
+            <a class="btn" href="README.md">Chart details</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="kicker">Quickstart</div>
+          <pre>
+helm repo add continuous-monitoring \
+  https://firasmosbehi.github.io/continuous-monitoring-chart
+
+helm install continuous-monitoring \
+  continuous-monitoring/continuous-monitoring
+          </pre>
+          <p>Grafana default credentials: <strong>admin / admin</strong></p>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="container">
+        <div class="grid stagger">
+          <div class="card">
+            <div class="kicker">Stack</div>
+            <h3>Metrics + Logs</h3>
+            <p>Prometheus scrapes exporters, Grafana visualizes, Loki aggregates logs when enabled.</p>
+          </div>
+          <div class="card">
+            <div class="kicker">Dashboards</div>
+            <h3>Exporter aware</h3>
+            <p>Dashboards are provisioned only if their exporter is enabled, keeping Grafana clean.</p>
+          </div>
+          <div class="card">
+            <div class="kicker">Config</div>
+            <h3>Values-driven</h3>
+            <p>Toggle components with `values.yaml` and deploy only what your cluster needs.</p>
+          </div>
+          <div class="card">
+            <div class="kicker">Repo</div>
+            <h3>Release ready</h3>
+            <p>Packaged and indexed for Helm repo hosting on GitHub Pages.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container grid">
+        <div class="card">
+          <div class="kicker">Architecture</div>
+          <p>
+            Grafana provides dashboards and datasources. Prometheus scrapes node-exporter
+            and kube-state-metrics. Loki and its datasource are optional. Each component is
+            independently toggled via values.
+          </p>
+        </div>
+        <div class="card">
+          <div class="kicker">Helpful links</div>
+          <p>
+            Helm repo URL: <br />
+            <a href="https://firasmosbehi.github.io/continuous-monitoring-chart">
+              https://firasmosbehi.github.io/continuous-monitoring-chart
+            </a>
+          </p>
+          <p>
+            Repository docs: <a href="README.md">README.md</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>Need help? Check the README troubleshooting section or open an issue in the repo.</p>
+      </div>
+    </footer>
   </body>
 </html>
