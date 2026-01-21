@@ -1,10 +1,28 @@
 # Continuous Monitoring Helm Chart
 
-This repository hosts the Helm chart for deploying the Continuous Monitoring stack (Grafana + Prometheus + exporters) to Kubernetes.
+Deploy a production-ready monitoring stack with a single Helm install. This chart bundles Grafana for visualization, Prometheus for metrics scraping, Loki for log aggregation (optional), and exporters for node and Kubernetes state metrics. It is designed for quick cluster observability with sensible defaults and clear extension points.
+
+## What you get
+- Grafana pre-provisioned with Prometheus and Loki datasources.
+- Node exporter and kube-state-metrics for cluster and node visibility.
+- Curated dashboards gated by exporter enablement.
+- Simple, values-driven configuration for turning components on or off.
 
 ## Repository layout
 - `charts/continuous-monitoring/`: Helm chart source (templates, values, chart metadata).
 - `artifacthub-repo.yml`: Artifact Hub repository metadata.
+
+## Quickstart
+```sh
+helm repo add continuous-monitoring https://firasmosbehi.github.io/continuous-monitoring-chart
+helm install continuous-monitoring continuous-monitoring/continuous-monitoring
+```
+
+Grafana local access:
+```sh
+kubectl port-forward svc/continuous-monitoring-continuous-monitoring-grafana 3000:3000
+```
+Open `http://localhost:3000` (default credentials: admin/admin).
 
 ## Local development
 - Lint the chart: `helm lint charts/continuous-monitoring`
