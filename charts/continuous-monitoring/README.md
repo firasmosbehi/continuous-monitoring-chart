@@ -33,6 +33,7 @@ Then open `http://localhost:3000`.
 - Grafana with pre-provisioned datasources (Prometheus, Loki) when enabled.
 - Prometheus scrape config includes node-exporter and kube-state-metrics targets.
 - Dashboards are provisioned only when their corresponding exporters are enabled.
+- Promtail ships pod logs to Loki and provisions a basic logs dashboard when enabled.
 
 ## Configuration
 Key values in `values.yaml`:
@@ -41,6 +42,8 @@ Key values in `values.yaml`:
 - `grafana.enabled`: Enable Grafana and dashboard provisioning.
 - `datasources.prometheus.enabled`: Enable Prometheus datasource and deployment.
 - `datasources.loki.enabled`: Enable Loki datasource and deployment.
+- `datasources.loki.url`: Override the Loki datasource URL (defaults to in-cluster service).
+- `logs.promtail.enabled`: Enable log collection via Promtail.
 - `dashboards.enabled`: Master switch for dashboards (still gated by exporter flags).
 
 Example:
@@ -92,10 +95,20 @@ helm install continuous-monitoring \
 | datasources.loki.image.repository | string | `"grafana/loki"` | Loki image repository. |
 | datasources.loki.image.tag | string | `"2.9.5"` | Loki image tag. |
 | datasources.loki.image.pullPolicy | string | `"IfNotPresent"` | Loki image pull policy. |
+| datasources.loki.url | string | `""` | Override Loki service URL for the Grafana datasource. |
 | datasources.loki.resources | object | `{}` | Loki resource requests/limits. |
 | datasources.loki.nodeSelector | object | `{}` | Loki node selector. |
 | datasources.loki.affinity | object | `{}` | Loki affinity rules. |
 | datasources.loki.tolerations | list | `[]` | Loki tolerations. |
+| logs.promtail.enabled | bool | `true` | Enable Promtail log collection. |
+| logs.promtail.image.repository | string | `"grafana/promtail"` | Promtail image repository. |
+| logs.promtail.image.tag | string | `"2.9.5"` | Promtail image tag. |
+| logs.promtail.image.pullPolicy | string | `"IfNotPresent"` | Promtail image pull policy. |
+| logs.promtail.clientUrl | string | `""` | Override Loki client URL. |
+| logs.promtail.resources | object | `{}` | Promtail resource requests/limits. |
+| logs.promtail.nodeSelector | object | `{}` | Promtail node selector. |
+| logs.promtail.affinity | object | `{}` | Promtail affinity rules. |
+| logs.promtail.tolerations | list | `[]` | Promtail tolerations. |
 | dashboards.enabled | bool | `true` | Enable dashboard provisioning. |
 
 ## Troubleshooting

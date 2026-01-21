@@ -1,0 +1,40 @@
+{{- if .Values.logs.promtail.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-promtail
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: promtail
+    app.kubernetes.io/part-of: logs
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-promtail
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: promtail
+    app.kubernetes.io/part-of: logs
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "nodes", "namespaces"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-promtail
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: promtail
+    app.kubernetes.io/part-of: logs
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "continuous-monitoring.fullname" . }}-promtail
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "continuous-monitoring.fullname" . }}-promtail
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

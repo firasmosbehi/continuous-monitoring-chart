@@ -34,6 +34,20 @@ datasources:
       repository: grafana/loki
       tag: "2.9.5"
       pullPolicy: IfNotPresent
+    url: ""
+
+logs:
+  promtail:
+    enabled: true
+    image:
+      repository: grafana/promtail
+      tag: "2.9.5"
+      pullPolicy: IfNotPresent
+    clientUrl: ""
+    resources: {}
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
 
 dashboards:
   enabled: true

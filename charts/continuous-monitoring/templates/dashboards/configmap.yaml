@@ -1,5 +1,6 @@
 {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
 {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
+{{- $logsDashboardEnabled := and .Values.dashboards.enabled .Values.logs.promtail.enabled .Values.datasources.loki.enabled }}
 {{- if $nodeExporterDashboardEnabled }}
 apiVersion: v1
 kind: ConfigMap
@@ -26,4 +27,32 @@ metadata:
 data:
   kube-state-metrics.json: |-
 {{ .Files.Get "files/dashboards/kube-state-metrics.json" | indent 4 }}
+{{- end }}
+{{- if $logsDashboardEnabled }}
+{{- if or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled }}
+---
+{{- end }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  logs.json: |-
+{{ .Files.Get "files/dashboards/logs.json" | indent 4 }}
+{{- end }}
+{{- if $logsDashboardEnabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs-overview
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  logs-overview.json: |-
+{{ .Files.Get "files/dashboards/logs-overview.json" | indent 4 }}
 {{- end }}

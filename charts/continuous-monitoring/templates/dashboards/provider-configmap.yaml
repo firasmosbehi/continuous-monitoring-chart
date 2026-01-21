@@ -1,6 +1,7 @@
 {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
 {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
-{{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled }}
+{{- $logsDashboardEnabled := and .Values.dashboards.enabled .Values.logs.promtail.enabled .Values.datasources.loki.enabled }}
+{{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled }}
 {{- if $dashboardsEnabled }}
 apiVersion: v1
 kind: ConfigMap

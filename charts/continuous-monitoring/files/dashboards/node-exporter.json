@@ -16,6 +16,10 @@
           "legendFormat": "{{instance}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "percentunit" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
     },
     {
@@ -28,6 +32,10 @@
           "legendFormat": "{{instance}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
     },
     {
@@ -40,6 +48,10 @@
           "legendFormat": "{{instance}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "bytes" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
     },
     {
@@ -52,6 +64,10 @@
           "legendFormat": "{{instance}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "percent" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 }
     },
     {
@@ -64,6 +80,10 @@
           "legendFormat": "{{instance}}:{{mountpoint}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "percent" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 }
     },
     {
@@ -80,6 +100,10 @@
           "legendFormat": "write {{instance}} {{device}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "Bps" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 }
     },
     {
@@ -96,6 +120,10 @@
           "legendFormat": "tx {{instance}} {{device}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "Bps" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 24, "w": 12, "h": 8 }
     },
     {
@@ -108,6 +136,10 @@
           "legendFormat": "{{instance}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "s" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 24, "w": 12, "h": 8 }
     }
   ]

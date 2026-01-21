@@ -20,7 +20,8 @@ spec:
     spec:
       {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
       {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
-      {{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled }}
+      {{- $logsDashboardEnabled := and .Values.dashboards.enabled .Values.logs.promtail.enabled .Values.datasources.loki.enabled }}
+      {{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled }}
       {{- $datasourcesEnabled := and .Values.datasources.enabled (or .Values.datasources.prometheus.enabled .Values.datasources.loki.enabled) }}
       containers:
         - name: grafana
@@ -77,6 +78,14 @@ spec:
               {{- if $kubeStateMetricsDashboardEnabled }}
               - configMap:
                   name: {{ include "continuous-monitoring.fullname" . }}-dashboard-kube-state-metrics
+              {{- end }}
+              {{- if $logsDashboardEnabled }}
+              - configMap:
+                  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs
+              {{- end }}
+              {{- if $logsDashboardEnabled }}
+              - configMap:
+                  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs-overview
               {{- end }}
         {{- end }}
       {{- with .Values.grafana.nodeSelector }}

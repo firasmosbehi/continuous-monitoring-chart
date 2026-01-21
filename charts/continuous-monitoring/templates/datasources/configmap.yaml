@@ -20,7 +20,7 @@ data:
 {{- if .Values.datasources.loki.enabled }}
       - name: "Loki"
         type: loki
-        url: {{ printf "http://%s-loki:3100" (include "continuous-monitoring.fullname" .) | quote }}
+        url: {{ default (printf "http://%s-loki:3100" (include "continuous-monitoring.fullname" .)) .Values.datasources.loki.url | quote }}
         access: "proxy"
 {{- end }}
 {{- end }}

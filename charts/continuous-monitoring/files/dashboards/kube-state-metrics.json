@@ -16,6 +16,10 @@
           "legendFormat": "{{phase}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
     },
     {
@@ -28,6 +32,10 @@
           "legendFormat": "{{deployment}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
     },
     {
@@ -44,6 +52,10 @@
           "legendFormat": "not-ready"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
     },
     {
@@ -56,6 +68,10 @@
           "legendFormat": "{{daemonset}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 }
     },
     {
@@ -68,6 +84,10 @@
           "legendFormat": "{{statefulset}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 }
     },
     {
@@ -80,6 +100,10 @@
           "legendFormat": "{{namespace}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "cores" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 }
     },
     {
@@ -92,6 +116,10 @@
           "legendFormat": "{{namespace}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "bytes" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 24, "w": 12, "h": 8 }
     },
     {
@@ -104,6 +132,10 @@
           "legendFormat": "{{namespace}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "cores" },
+        "overrides": []
+      },
       "gridPos": { "x": 12, "y": 24, "w": 12, "h": 8 }
     },
     {
@@ -116,6 +148,10 @@
           "legendFormat": "{{namespace}}"
         }
       ],
+      "fieldConfig": {
+        "defaults": { "unit": "bytes" },
+        "overrides": []
+      },
       "gridPos": { "x": 0, "y": 32, "w": 24, "h": 8 }
     }
   ]

@@ -1,10 +1,11 @@
 # Continuous Monitoring Helm Chart
 
-Deploy a production-ready monitoring stack with a single Helm install. This chart bundles Grafana for visualization, Prometheus for metrics scraping, Loki for log aggregation (optional), and exporters for node and Kubernetes state metrics. It is designed for quick cluster observability with sensible defaults and clear extension points.
+Deploy a production-ready monitoring stack with a single Helm install. This chart bundles Grafana for visualization, Prometheus for metrics scraping, Loki for log aggregation, Promtail for log collection, and exporters for node and Kubernetes state metrics. It is designed for quick cluster observability with sensible defaults and clear extension points.
 
 ## What you get
 - Grafana pre-provisioned with Prometheus and Loki datasources.
 - Node exporter and kube-state-metrics for cluster and node visibility.
+- Promtail shipping pod logs to Loki with curated logs dashboards.
 - Curated dashboards gated by exporter enablement.
 - Simple, values-driven configuration for turning components on or off.
 
