@@ -18,7 +18,9 @@ spec:
         {{- include "continuous-monitoring.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: grafana
     spec:
-      {{- $dashboardsEnabled := and .Values.dashboards.enabled (gt (len .Values.dashboards.definitions) 0) }}
+      {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
+      {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
+      {{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled }}
       {{- $datasourcesEnabled := and .Values.datasources.enabled (or .Values.datasources.prometheus.enabled .Values.datasources.loki.enabled) }}
       containers:
         - name: grafana
@@ -26,9 +28,9 @@ spec:
           imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
           env:
             - name: GF_SECURITY_ADMIN_USER
-              value: "{{ .Values.grafana.adminUser }}"
+              value: "admin"
             - name: GF_SECURITY_ADMIN_PASSWORD
-              value: "{{ .Values.grafana.adminPassword }}"
+              value: "admin"
           ports:
             - name: http
               containerPort: 3000
@@ -39,7 +41,7 @@ spec:
               mountPath: /etc/grafana/provisioning/datasources
               readOnly: true
             {{- end }}
-            {{- if .Values.dashboards.enabled }}
+            {{- if $dashboardsEnabled }}
             - name: grafana-dashboard-provider
               mountPath: /etc/grafana/provisioning/dashboards
               readOnly: true
@@ -59,7 +61,7 @@ spec:
           configMap:
             name: {{ include "continuous-monitoring.fullname" . }}-datasources
         {{- end }}
-        {{- if .Values.dashboards.enabled }}
+        {{- if $dashboardsEnabled }}
         - name: grafana-dashboard-provider
           configMap:
             name: {{ include "continuous-monitoring.fullname" . }}-dashboard-provider
@@ -68,9 +70,13 @@ spec:
         - name: grafana-dashboards
           projected:
             sources:
-              {{- range $i, $def := .Values.dashboards.definitions }}
+              {{- if $nodeExporterDashboardEnabled }}
               - configMap:
-                  name: {{ include "continuous-monitoring.fullname" $ }}-dashboard-{{ $i }}
+                  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-node-exporter
+              {{- end }}
+              {{- if $kubeStateMetricsDashboardEnabled }}
+              - configMap:
+                  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-kube-state-metrics
               {{- end }}
         {{- end }}
       {{- with .Values.grafana.nodeSelector }}

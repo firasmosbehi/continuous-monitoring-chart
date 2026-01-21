@@ -1,0 +1,122 @@
+{
+  "uid": "kube-state-metrics-overview",
+  "title": "Kube State Metrics Overview",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Pods by Phase",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_pod_status_phase) by (phase)",
+          "legendFormat": "{{phase}}"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Deployments Available",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_deployment_status_replicas_available) by (deployment)",
+          "legendFormat": "{{deployment}}"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Nodes Ready",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_node_status_condition{condition=\"Ready\",status=\"true\"})",
+          "legendFormat": "ready"
+        },
+        {
+          "expr": "sum(kube_node_status_condition{condition=\"Ready\",status=\"false\"})",
+          "legendFormat": "not-ready"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "DaemonSet Ready",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_daemonset_status_number_ready) by (daemonset)",
+          "legendFormat": "{{daemonset}}"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "StatefulSet Ready",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_statefulset_status_replicas_ready) by (statefulset)",
+          "legendFormat": "{{statefulset}}"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Namespace CPU Requests (cores)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_pod_container_resource_requests{resource=\"cpu\",unit=\"core\"}) by (namespace)",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Namespace Memory Requests (bytes)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_pod_container_resource_requests{resource=\"memory\",unit=\"byte\"}) by (namespace)",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 24, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Namespace CPU Limits (cores)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_pod_container_resource_limits{resource=\"cpu\",unit=\"core\"}) by (namespace)",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 24, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Namespace Memory Limits (bytes)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_pod_container_resource_limits{resource=\"memory\",unit=\"byte\"}) by (namespace)",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 32, "w": 24, "h": 8 }
+    }
+  ]
+}

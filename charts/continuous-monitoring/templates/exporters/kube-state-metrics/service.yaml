@@ -7,10 +7,10 @@ metadata:
     {{- include "continuous-monitoring.labels" . | nindent 4 }}
     app.kubernetes.io/component: kube-state-metrics
 spec:
-  type: {{ .Values.exporters.kubeStateMetrics.service.type }}
+  type: ClusterIP
   ports:
     - name: metrics
-      port: {{ .Values.exporters.kubeStateMetrics.service.port }}
+      port: 8080
       targetPort: metrics
       protocol: TCP
   selector:

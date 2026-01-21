@@ -7,10 +7,10 @@ metadata:
     {{- include "continuous-monitoring.labels" . | nindent 4 }}
     app.kubernetes.io/component: grafana
 spec:
-  type: {{ .Values.grafana.service.type }}
+  type: ClusterIP
   ports:
     - name: http
-      port: {{ .Values.grafana.service.port }}
+      port: 3000
       targetPort: http
       protocol: TCP
   selector:

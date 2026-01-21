@@ -1,4 +1,7 @@
-{{- if .Values.dashboards.enabled }}
+{{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
+{{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
+{{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled }}
+{{- if $dashboardsEnabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,12 +12,13 @@ data:
   dashboards.yaml: |
     apiVersion: 1
     providers:
-      - name: {{ .Values.dashboards.provider.name | quote }}
+      - name: "default"
         orgId: 1
-        folder: {{ .Values.dashboards.provider.folder | quote }}
-        type: {{ .Values.dashboards.provider.type | quote }}
-        disableDeletion: {{ .Values.dashboards.provider.disableDeletion }}
-        editable: {{ .Values.dashboards.provider.editable }}
+        folder: "Continuous Monitoring"
+        folderUid: "continuous-monitoring"
+        type: "file"
+        disableDeletion: false
+        editable: true
         options:
-          path: {{ .Values.dashboards.provider.options.path | quote }}
+          path: "/var/lib/grafana/dashboards"
 {{- end }}

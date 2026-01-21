@@ -7,10 +7,10 @@ metadata:
     {{- include "continuous-monitoring.labels" . | nindent 4 }}
     app.kubernetes.io/component: node-exporter
 spec:
-  type: {{ .Values.exporters.nodeExporter.service.type }}
+  type: ClusterIP
   ports:
     - name: metrics
-      port: {{ .Values.exporters.nodeExporter.service.port }}
+      port: 9100
       targetPort: metrics
       protocol: TCP
   selector:

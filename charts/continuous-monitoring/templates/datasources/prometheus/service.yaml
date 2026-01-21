@@ -8,10 +8,10 @@ metadata:
     app.kubernetes.io/component: prometheus
     app.kubernetes.io/part-of: datasources
 spec:
-  type: {{ .Values.datasources.prometheus.service.type }}
+  type: ClusterIP
   ports:
     - name: http
-      port: {{ .Values.datasources.prometheus.service.port }}
+      port: 9090
       targetPort: http
       protocol: TCP
   selector:

@@ -5,24 +5,22 @@ metadata:
   name: {{ include "continuous-monitoring.fullname" . }}-datasources
   labels:
     {{- include "continuous-monitoring.labels" . | nindent 4 }}
-    {{- with .Values.datasources.configMapLabels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    grafana_datasource: "1"
 data:
   datasources.yaml: |
     apiVersion: 1
     datasources:
 {{- if .Values.datasources.prometheus.enabled }}
-      - name: {{ .Values.datasources.prometheus.name | quote }}
+      - name: "Prometheus"
         type: prometheus
-        url: {{ default (printf "http://%s-prometheus:9090" (include "continuous-monitoring.fullname" .)) .Values.datasources.prometheus.url | quote }}
-        access: {{ .Values.datasources.prometheus.access | quote }}
-        isDefault: {{ .Values.datasources.prometheus.isDefault }}
+        url: {{ printf "http://%s-prometheus:9090" (include "continuous-monitoring.fullname" .) | quote }}
+        access: "proxy"
+        isDefault: true
 {{- end }}
 {{- if .Values.datasources.loki.enabled }}
-      - name: {{ .Values.datasources.loki.name | quote }}
+      - name: "Loki"
         type: loki
-        url: {{ default (printf "http://%s-loki:3100" (include "continuous-monitoring.fullname" .)) .Values.datasources.loki.url | quote }}
-        access: {{ .Values.datasources.loki.access | quote }}
+        url: {{ printf "http://%s-loki:3100" (include "continuous-monitoring.fullname" .) | quote }}
+        access: "proxy"
 {{- end }}
 {{- end }}

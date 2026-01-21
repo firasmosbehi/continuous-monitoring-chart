@@ -10,5 +10,5 @@ metadata:
 
 data:
   loki.yaml: |
-{{ tpl .Values.datasources.loki.config . | indent 4 }}
+{{ tpl (.Files.Get "files/loki/loki.yaml") . | indent 4 }}
 {{- end }}
