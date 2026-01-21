@@ -5,6 +5,41 @@ entries:
       artifacthub.io/changes: |
         - kind: added
           description: "Initial chart release."
+      artifacthub.io/images: |
+        - name: grafana
+          image: grafana/grafana:10.4.2
+        - name: prometheus
+          image: prom/prometheus:v2.50.1
+        - name: loki
+          image: grafana/loki:2.9.5
+        - name: node-exporter
+          image: quay.io/prometheus/node-exporter:v1.7.0
+        - name: kube-state-metrics
+          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
+    apiVersion: v2
+    appVersion: 0.1.1
+    created: "2026-01-21T20:09:54.066312+01:00"
+    description: Helm chart for the Continuous Monitoring service
+    digest: 6219a591c30713b8afd5a43b5030680e3c545f85ff7cece7a56b20c295026e6c
+    home: https://github.com/firasmosbehi/continuous-monitoring-chart
+    keywords:
+    - monitoring
+    - observability
+    - continuous
+    maintainers:
+    - email: firas.mosbehi@insat.ucar.tn
+      name: Firas Mosbehi
+    name: continuous-monitoring
+    sources:
+    - https://github.com/firasmosbehi/continuous-monitoring-chart
+    type: application
+    urls:
+    - continuous-monitoring-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "Initial chart release."
     apiVersion: v2
     appVersion: 0.1.1
     created: "2026-01-20T14:45:41.749659233Z"
@@ -25,4 +60,4 @@ entries:
     urls:
     - https://github.com/firasmosbehi/continuous-monitoring-chart/releases/download/continuous-monitoring-0.1.1/continuous-monitoring-0.1.1.tgz
     version: 0.1.1
-generated: "2026-01-20T14:45:41.749670073Z"
+generated: "2026-01-21T20:09:54.064357+01:00"
