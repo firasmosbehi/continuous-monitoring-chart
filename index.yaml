@@ -3,6 +3,8 @@ entries:
   continuous-monitoring:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "Set a custom chart icon for better identification in Artifact Hub."
         - kind: security
           description: "Pin images by digest to avoid pulling vulnerable variants."
         - kind: security
@@ -30,7 +32,55 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0@sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-22T21:37:26.833716+01:00"
+    created: "2026-01-22T21:48:54.400891+01:00"
+    description: Helm chart for the Continuous Monitoring service
+    digest: 34685cd81735aded5ba5a837d328998edb8a487a3167ef2d903043f8f6df6167
+    home: https://github.com/firasmosbehi/continuous-monitoring-chart
+    icon: https://raw.githubusercontent.com/firasmosbehi/continuous-monitoring-chart/main/assets/chart-icon.svg
+    keywords:
+    - monitoring
+    - observability
+    - continuous
+    maintainers:
+    - email: firas.mosbehi@insat.ucar.tn
+      name: Firas Mosbehi
+    name: continuous-monitoring
+    sources:
+    - https://github.com/firasmosbehi/continuous-monitoring-chart
+    type: application
+    urls:
+    - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.8.tgz
+    version: 0.1.8
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: security
+          description: "Pin images by digest to avoid pulling vulnerable variants."
+        - kind: security
+          description: "Refresh default images (Grafana 11.2.2, Prometheus 2.54.1, Loki/Promtail 3.1.1, Node Exporter 1.8.1, kube-state-metrics 2.13.0) to address CVEs."
+        - kind: added
+          description: "Add log state (error/warning/normal) and free-text filters to the Cluster Logs dashboard."
+        - kind: fixed
+          description: "Ensure the Cluster Logs dashboard uses valid Loki filters when 'Normal' is selected."
+        - kind: fixed
+          description: "Fix Promtail Kubernetes SD by binding to the node name and restore log ingestion."
+        - kind: changed
+          description: "Merge log dashboards into a single consolidated view."
+      artifacthub.io/images: |
+        - name: grafana
+          image: grafana/grafana:11.2.2@sha256:d5133220d770aba5cb655147b619fa8770b90f41d8489a821d33b1cd34d16f89
+        - name: prometheus
+          image: prom/prometheus:v2.54.1@sha256:f6639335d34a77d9d9db382b92eeb7fc00934be8eae81dbc03b31cfe90411a94
+        - name: loki
+          image: grafana/loki:3.1.1@sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986
+        - name: promtail
+          image: grafana/promtail:3.1.1@sha256:48fba41d9f08c6a56a85b078529dc8550a1809d3e7a9674982e9e9bfbdc854c1
+        - name: node-exporter
+          image: quay.io/prometheus/node-exporter:v1.8.1@sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631
+        - name: kube-state-metrics
+          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0@sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
+    apiVersion: v2
+    appVersion: 0.1.1
+    created: "2026-01-22T21:48:54.400422+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 67ce299475eea8e6fd980767ba82fb098f7487c93caa66935b91a250cf88a275
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -75,7 +125,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-22T21:37:26.833239+01:00"
+    created: "2026-01-22T21:48:54.399775+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 426ae5eb5338b0f72323baedc29cb3926a233df4527fe0e91a48eb74f7b43a49
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -118,7 +168,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-22T21:37:26.832779+01:00"
+    created: "2026-01-22T21:48:54.399198+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 63ceb6b935d46105e15f3ef877a8e4870f47321acb6bae5c190158c952a750e9
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -155,7 +205,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-22T21:37:26.832268+01:00"
+    created: "2026-01-22T21:48:54.398036+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 914bf15f3563105ccb929a53cab52c2623c6f2080e86320f3e97db620a8a7647
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -190,7 +240,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-22T21:37:26.831326+01:00"
+    created: "2026-01-22T21:48:54.397555+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 6219a591c30713b8afd5a43b5030680e3c545f85ff7cece7a56b20c295026e6c
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -208,4 +258,4 @@ entries:
     urls:
     - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.2.tgz
     version: 0.1.2
-generated: "2026-01-22T21:37:26.830843+01:00"
+generated: "2026-01-22T21:48:54.396051+01:00"
