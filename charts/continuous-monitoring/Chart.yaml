@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.7
+version: 0.1.8
 appVersion: "0.1.1"
 
 keywords:
@@ -12,6 +12,7 @@ keywords:
   - continuous
 
 home: https://github.com/firasmosbehi/continuous-monitoring-chart
+icon: https://raw.githubusercontent.com/firasmosbehi/continuous-monitoring-chart/main/assets/chart-icon.svg
 sources:
   - https://github.com/firasmosbehi/continuous-monitoring-chart
 
@@ -21,6 +22,8 @@ maintainers:
 
 annotations:
   artifacthub.io/changes: |
+    - kind: added
+      description: "Set a custom chart icon for better identification in Artifact Hub."
     - kind: security
       description: "Pin images by digest to avoid pulling vulnerable variants."
     - kind: security
