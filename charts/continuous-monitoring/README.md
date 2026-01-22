@@ -33,7 +33,7 @@ Then open `http://localhost:3000`.
 - Grafana with pre-provisioned datasources (Prometheus, Loki) when enabled.
 - Prometheus scrape config includes node-exporter and kube-state-metrics targets.
 - Dashboards are provisioned only when their corresponding exporters are enabled.
-- Promtail ships pod logs to Loki and provisions a basic logs dashboard when enabled.
+- Promtail ships pod logs to Loki and provisions a logs dashboard with severity (error/warning/normal) and free-text filters.
 
 ## Configuration
 Key values in `values.yaml`:

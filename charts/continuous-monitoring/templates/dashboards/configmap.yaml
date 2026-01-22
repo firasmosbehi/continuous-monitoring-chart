@@ -43,16 +43,3 @@ data:
   logs.json: |-
 {{ .Files.Get "files/dashboards/logs.json" | indent 4 }}
 {{- end }}
-{{- if $logsDashboardEnabled }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs-overview
-  labels:
-    {{- include "continuous-monitoring.labels" . | nindent 4 }}
-    grafana_dashboard: "1"
-data:
-  logs-overview.json: |-
-{{ .Files.Get "files/dashboards/logs-overview.json" | indent 4 }}
-{{- end }}

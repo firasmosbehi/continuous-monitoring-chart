@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.3
+version: 0.1.5
 appVersion: "0.1.1"
 
 keywords:
@@ -22,7 +22,13 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: "Add Promtail-based log collection, Loki datasource override, and Grafana logs dashboards."
+      description: "Add log state (error/warning/normal) and free-text filters to the Cluster Logs dashboard."
+    - kind: fixed
+      description: "Ensure the Cluster Logs dashboard uses valid Loki filters when 'Normal' is selected."
+    - kind: fixed
+      description: "Fix Promtail Kubernetes SD by binding to the node name and restore log ingestion."
+    - kind: changed
+      description: "Merge log dashboards into a single consolidated view."
   artifacthub.io/images: |
     - name: grafana
       image: grafana/grafana:10.4.2

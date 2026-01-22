@@ -83,10 +83,6 @@ spec:
               - configMap:
                   name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs
               {{- end }}
-              {{- if $logsDashboardEnabled }}
-              - configMap:
-                  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs-overview
-              {{- end }}
         {{- end }}
       {{- with .Values.grafana.nodeSelector }}
       nodeSelector:

@@ -7,12 +7,44 @@
   "refresh": "10s",
   "panels": [
     {
+      "type": "timeseries",
+      "title": "Log Volume (lines/sec)",
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "sum by (namespace) (rate({namespace=~\"$namespace\", pod=~\"$pod\"} $state |~ \"$contains\"[1m]))",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "ops" },
+        "overrides": []
+      },
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Selected State Rate (lines/sec)",
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "sum by (namespace) (rate({namespace=~\"$namespace\", pod=~\"$pod\"} $state |~ \"$contains\"[1m]))",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "ops" },
+        "overrides": []
+      },
+      "gridPos": { "x": 0, "y": 8, "w": 24, "h": 8 }
+    },
+    {
       "type": "logs",
       "title": "Logs",
       "datasource": "Loki",
       "targets": [
         {
-          "expr": "{namespace=~\"$namespace\", pod=~\"$pod\"}",
+          "expr": "{namespace=~\"$namespace\", pod=~\"$pod\"} $state |~ \"$contains\"",
           "refId": "A"
         }
       ],
@@ -21,7 +53,7 @@
         "showTime": true,
         "wrapLogMessage": true
       },
-      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 16 }
+      "gridPos": { "x": 0, "y": 16, "w": 24, "h": 16 }
     }
   ],
   "templating": {
@@ -30,11 +62,32 @@
         "name": "namespace",
         "type": "query",
         "datasource": "Loki",
-        "query": "label_values(namespace)",
+        "query": "label_values({namespace=~\".+\"}, namespace)",
         "refresh": 1,
         "multi": true,
         "includeAll": true,
-        "allValue": ".*"
+        "allValue": ".+"
+      },
+      {
+        "name": "state",
+        "label": "State",
+        "type": "custom",
+        "query": "All,Error,Warning,Normal",
+        "options": [
+          { "text": "All", "value": "", "selected": true },
+          { "text": "Error", "value": "|~ \"(?i)(error|exception|fatal)\"", "selected": false },
+          { "text": "Warning", "value": "|~ \"(?i)(warn|warning)\"", "selected": false },
+          { "text": "Normal", "value": "!~ \"(?i)(error|exception|fatal|warn)\"", "selected": false }
+        ],
+        "current": { "text": "All", "value": "" }
+      },
+      {
+        "name": "contains",
+        "label": "Contains",
+        "type": "textbox",
+        "query": ".*",
+        "current": { "text": ".*", "value": ".*" },
+        "skipUrlSync": false
       },
       {
         "name": "pod",
@@ -44,7 +97,7 @@
         "refresh": 1,
         "multi": true,
         "includeAll": true,
-        "allValue": ".*"
+        "allValue": ".+"
       }
     ]
   }
