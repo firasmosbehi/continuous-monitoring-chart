@@ -60,7 +60,7 @@ helm install continuous-monitoring \
 | fullnameOverride | string | `""` | Override the release name. |
 | exporters.nodeExporter.enabled | bool | `true` | Enable node-exporter. |
 | exporters.nodeExporter.image.repository | string | `"quay.io/prometheus/node-exporter"` | Node-exporter image repository. |
-| exporters.nodeExporter.image.tag | string | `"v1.7.0"` | Node-exporter image tag. |
+| exporters.nodeExporter.image.tag | string | `"v1.8.1"` | Node-exporter image tag. |
 | exporters.nodeExporter.image.pullPolicy | string | `"IfNotPresent"` | Node-exporter image pull policy. |
 | exporters.nodeExporter.resources | object | `{}` | Node-exporter resource requests/limits. |
 | exporters.nodeExporter.nodeSelector | object | `{}` | Node-exporter node selector. |
@@ -68,7 +68,7 @@ helm install continuous-monitoring \
 | exporters.nodeExporter.tolerations | list | `[]` | Node-exporter tolerations. |
 | exporters.kubeStateMetrics.enabled | bool | `true` | Enable kube-state-metrics. |
 | exporters.kubeStateMetrics.image.repository | string | `"registry.k8s.io/kube-state-metrics/kube-state-metrics"` | Kube-state-metrics image repository. |
-| exporters.kubeStateMetrics.image.tag | string | `"v2.10.1"` | Kube-state-metrics image tag. |
+| exporters.kubeStateMetrics.image.tag | string | `"v2.13.0"` | Kube-state-metrics image tag. |
 | exporters.kubeStateMetrics.image.pullPolicy | string | `"IfNotPresent"` | Kube-state-metrics image pull policy. |
 | exporters.kubeStateMetrics.resources | object | `{}` | Kube-state-metrics resource requests/limits. |
 | exporters.kubeStateMetrics.nodeSelector | object | `{}` | Kube-state-metrics node selector. |
@@ -76,7 +76,7 @@ helm install continuous-monitoring \
 | exporters.kubeStateMetrics.tolerations | list | `[]` | Kube-state-metrics tolerations. |
 | grafana.enabled | bool | `true` | Enable Grafana. |
 | grafana.image.repository | string | `"grafana/grafana"` | Grafana image repository. |
-| grafana.image.tag | string | `"10.4.2"` | Grafana image tag. |
+| grafana.image.tag | string | `"11.2.2"` | Grafana image tag. |
 | grafana.image.pullPolicy | string | `"IfNotPresent"` | Grafana image pull policy. |
 | grafana.resources | object | `{}` | Grafana resource requests/limits. |
 | grafana.nodeSelector | object | `{}` | Grafana node selector. |
@@ -85,7 +85,7 @@ helm install continuous-monitoring \
 | datasources.enabled | bool | `true` | Enable datasource provisioning. |
 | datasources.prometheus.enabled | bool | `true` | Enable Prometheus datasource and deployment. |
 | datasources.prometheus.image.repository | string | `"prom/prometheus"` | Prometheus image repository. |
-| datasources.prometheus.image.tag | string | `"v2.50.1"` | Prometheus image tag. |
+| datasources.prometheus.image.tag | string | `"v2.54.1"` | Prometheus image tag. |
 | datasources.prometheus.image.pullPolicy | string | `"IfNotPresent"` | Prometheus image pull policy. |
 | datasources.prometheus.resources | object | `{}` | Prometheus resource requests/limits. |
 | datasources.prometheus.nodeSelector | object | `{}` | Prometheus node selector. |
@@ -93,7 +93,7 @@ helm install continuous-monitoring \
 | datasources.prometheus.tolerations | list | `[]` | Prometheus tolerations. |
 | datasources.loki.enabled | bool | `true` | Enable Loki datasource and deployment. |
 | datasources.loki.image.repository | string | `"grafana/loki"` | Loki image repository. |
-| datasources.loki.image.tag | string | `"2.9.5"` | Loki image tag. |
+| datasources.loki.image.tag | string | `"3.1.1"` | Loki image tag. |
 | datasources.loki.image.pullPolicy | string | `"IfNotPresent"` | Loki image pull policy. |
 | datasources.loki.url | string | `""` | Override Loki service URL for the Grafana datasource. |
 | datasources.loki.resources | object | `{}` | Loki resource requests/limits. |
@@ -102,7 +102,7 @@ helm install continuous-monitoring \
 | datasources.loki.tolerations | list | `[]` | Loki tolerations. |
 | logs.promtail.enabled | bool | `true` | Enable Promtail log collection. |
 | logs.promtail.image.repository | string | `"grafana/promtail"` | Promtail image repository. |
-| logs.promtail.image.tag | string | `"2.9.5"` | Promtail image tag. |
+| logs.promtail.image.tag | string | `"3.1.1"` | Promtail image tag. |
 | logs.promtail.image.pullPolicy | string | `"IfNotPresent"` | Promtail image pull policy. |
 | logs.promtail.clientUrl | string | `""` | Override Loki client URL. |
 | logs.promtail.resources | object | `{}` | Promtail resource requests/limits. |
