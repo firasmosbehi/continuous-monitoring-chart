@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: loki
-          image: "{{ .Values.datasources.loki.image.repository }}:{{ .Values.datasources.loki.image.tag }}"
+          image: "{{ include "continuous-monitoring.image" (list .Values.datasources.loki.image.repository .Values.datasources.loki.image.tag .Values.datasources.loki.image.digest) }}"
           imagePullPolicy: {{ .Values.datasources.loki.image.pullPolicy }}
           args:
             - "-config.file=/etc/loki/loki.yaml"

@@ -21,7 +21,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: node-exporter
-          image: "{{ .Values.exporters.nodeExporter.image.repository }}:{{ .Values.exporters.nodeExporter.image.tag }}"
+          image: "{{ include "continuous-monitoring.image" (list .Values.exporters.nodeExporter.image.repository .Values.exporters.nodeExporter.image.tag .Values.exporters.nodeExporter.image.digest) }}"
           imagePullPolicy: {{ .Values.exporters.nodeExporter.image.pullPolicy }}
           args:
             - --path.procfs=/host/proc

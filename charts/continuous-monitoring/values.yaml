@@ -4,6 +4,7 @@ exporters:
     image:
       repository: quay.io/prometheus/node-exporter
       tag: v1.8.1
+      digest: sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631
       pullPolicy: IfNotPresent
 
   kubeStateMetrics:
@@ -11,6 +12,7 @@ exporters:
     image:
       repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
       tag: v2.13.0
+      digest: sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
       pullPolicy: IfNotPresent
 
 grafana:
@@ -18,6 +20,7 @@ grafana:
   image:
     repository: grafana/grafana
     tag: "11.2.2"
+    digest: sha256:d5133220d770aba5cb655147b619fa8770b90f41d8489a821d33b1cd34d16f89
     pullPolicy: IfNotPresent
 
 datasources:
@@ -27,12 +30,14 @@ datasources:
     image:
       repository: prom/prometheus
       tag: v2.54.1
+      digest: sha256:f6639335d34a77d9d9db382b92eeb7fc00934be8eae81dbc03b31cfe90411a94
       pullPolicy: IfNotPresent
   loki:
     enabled: true
     image:
       repository: grafana/loki
       tag: "3.1.1"
+      digest: sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986
       pullPolicy: IfNotPresent
     url: ""
 
@@ -42,6 +47,7 @@ logs:
     image:
       repository: grafana/promtail
       tag: "3.1.1"
+      digest: sha256:48fba41d9f08c6a56a85b078529dc8550a1809d3e7a9674982e9e9bfbdc854c1
       pullPolicy: IfNotPresent
     clientUrl: ""
     resources: {}

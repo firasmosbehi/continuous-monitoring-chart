@@ -25,7 +25,7 @@ spec:
       {{- $datasourcesEnabled := and .Values.datasources.enabled (or .Values.datasources.prometheus.enabled .Values.datasources.loki.enabled) }}
       containers:
         - name: grafana
-          image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"
+          image: "{{ include "continuous-monitoring.image" (list .Values.grafana.image.repository .Values.grafana.image.tag .Values.grafana.image.digest) }}"
           imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
           env:
             - name: GF_SECURITY_ADMIN_USER

@@ -61,6 +61,7 @@ helm install continuous-monitoring \
 | exporters.nodeExporter.enabled | bool | `true` | Enable node-exporter. |
 | exporters.nodeExporter.image.repository | string | `"quay.io/prometheus/node-exporter"` | Node-exporter image repository. |
 | exporters.nodeExporter.image.tag | string | `"v1.8.1"` | Node-exporter image tag. |
+| exporters.nodeExporter.image.digest | string | `"sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631"` | Node-exporter image digest. |
 | exporters.nodeExporter.image.pullPolicy | string | `"IfNotPresent"` | Node-exporter image pull policy. |
 | exporters.nodeExporter.resources | object | `{}` | Node-exporter resource requests/limits. |
 | exporters.nodeExporter.nodeSelector | object | `{}` | Node-exporter node selector. |
@@ -69,6 +70,7 @@ helm install continuous-monitoring \
 | exporters.kubeStateMetrics.enabled | bool | `true` | Enable kube-state-metrics. |
 | exporters.kubeStateMetrics.image.repository | string | `"registry.k8s.io/kube-state-metrics/kube-state-metrics"` | Kube-state-metrics image repository. |
 | exporters.kubeStateMetrics.image.tag | string | `"v2.13.0"` | Kube-state-metrics image tag. |
+| exporters.kubeStateMetrics.image.digest | string | `"sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f"` | Kube-state-metrics image digest. |
 | exporters.kubeStateMetrics.image.pullPolicy | string | `"IfNotPresent"` | Kube-state-metrics image pull policy. |
 | exporters.kubeStateMetrics.resources | object | `{}` | Kube-state-metrics resource requests/limits. |
 | exporters.kubeStateMetrics.nodeSelector | object | `{}` | Kube-state-metrics node selector. |
@@ -77,6 +79,7 @@ helm install continuous-monitoring \
 | grafana.enabled | bool | `true` | Enable Grafana. |
 | grafana.image.repository | string | `"grafana/grafana"` | Grafana image repository. |
 | grafana.image.tag | string | `"11.2.2"` | Grafana image tag. |
+| grafana.image.digest | string | `"sha256:d5133220d770aba5cb655147b619fa8770b90f41d8489a821d33b1cd34d16f89"` | Grafana image digest. |
 | grafana.image.pullPolicy | string | `"IfNotPresent"` | Grafana image pull policy. |
 | grafana.resources | object | `{}` | Grafana resource requests/limits. |
 | grafana.nodeSelector | object | `{}` | Grafana node selector. |
@@ -86,6 +89,7 @@ helm install continuous-monitoring \
 | datasources.prometheus.enabled | bool | `true` | Enable Prometheus datasource and deployment. |
 | datasources.prometheus.image.repository | string | `"prom/prometheus"` | Prometheus image repository. |
 | datasources.prometheus.image.tag | string | `"v2.54.1"` | Prometheus image tag. |
+| datasources.prometheus.image.digest | string | `"sha256:f6639335d34a77d9d9db382b92eeb7fc00934be8eae81dbc03b31cfe90411a94"` | Prometheus image digest. |
 | datasources.prometheus.image.pullPolicy | string | `"IfNotPresent"` | Prometheus image pull policy. |
 | datasources.prometheus.resources | object | `{}` | Prometheus resource requests/limits. |
 | datasources.prometheus.nodeSelector | object | `{}` | Prometheus node selector. |
@@ -94,6 +98,7 @@ helm install continuous-monitoring \
 | datasources.loki.enabled | bool | `true` | Enable Loki datasource and deployment. |
 | datasources.loki.image.repository | string | `"grafana/loki"` | Loki image repository. |
 | datasources.loki.image.tag | string | `"3.1.1"` | Loki image tag. |
+| datasources.loki.image.digest | string | `"sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986"` | Loki image digest. |
 | datasources.loki.image.pullPolicy | string | `"IfNotPresent"` | Loki image pull policy. |
 | datasources.loki.url | string | `""` | Override Loki service URL for the Grafana datasource. |
 | datasources.loki.resources | object | `{}` | Loki resource requests/limits. |
@@ -103,6 +108,7 @@ helm install continuous-monitoring \
 | logs.promtail.enabled | bool | `true` | Enable Promtail log collection. |
 | logs.promtail.image.repository | string | `"grafana/promtail"` | Promtail image repository. |
 | logs.promtail.image.tag | string | `"3.1.1"` | Promtail image tag. |
+| logs.promtail.image.digest | string | `"sha256:48fba41d9f08c6a56a85b078529dc8550a1809d3e7a9674982e9e9bfbdc854c1"` | Promtail image digest. |
 | logs.promtail.image.pullPolicy | string | `"IfNotPresent"` | Promtail image pull policy. |
 | logs.promtail.clientUrl | string | `""` | Override Loki client URL. |
 | logs.promtail.resources | object | `{}` | Promtail resource requests/limits. |

@@ -21,7 +21,7 @@ spec:
       serviceAccountName: {{ include "continuous-monitoring.fullname" . }}-promtail
       containers:
         - name: promtail
-          image: "{{ .Values.logs.promtail.image.repository }}:{{ .Values.logs.promtail.image.tag }}"
+          image: "{{ include "continuous-monitoring.image" (list .Values.logs.promtail.image.repository .Values.logs.promtail.image.tag .Values.logs.promtail.image.digest) }}"
           imagePullPolicy: {{ .Values.logs.promtail.image.pullPolicy }}
           env:
             - name: HOSTNAME

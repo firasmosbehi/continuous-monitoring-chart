@@ -23,3 +23,15 @@ helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | quote }}
 app.kubernetes.io/name: {{ include "continuous-monitoring.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{- /* Build an image reference using digest when provided, else tag. Expects list [repository tag digest] */ -}}
+{{- define "continuous-monitoring.image" -}}
+{{- $repo := index . 0 -}}
+{{- $tag := index . 1 -}}
+{{- $digest := index . 2 -}}
+{{- if $digest }}
+{{- printf "%s@%s" $repo $digest -}}
+{{- else -}}
+{{- printf "%s:%s" $repo $tag -}}
+{{- end -}}
+{{- end }}

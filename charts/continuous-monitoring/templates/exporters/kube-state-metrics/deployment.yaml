@@ -21,7 +21,7 @@ spec:
       serviceAccountName: {{ include "continuous-monitoring.fullname" . }}-kube-state-metrics
       containers:
         - name: kube-state-metrics
-          image: "{{ .Values.exporters.kubeStateMetrics.image.repository }}:{{ .Values.exporters.kubeStateMetrics.image.tag }}"
+          image: "{{ include "continuous-monitoring.image" (list .Values.exporters.kubeStateMetrics.image.repository .Values.exporters.kubeStateMetrics.image.tag .Values.exporters.kubeStateMetrics.image.digest) }}"
           imagePullPolicy: {{ .Values.exporters.kubeStateMetrics.image.pullPolicy }}
           ports:
             - name: metrics

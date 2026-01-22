@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: "{{ .Values.datasources.prometheus.image.repository }}:{{ .Values.datasources.prometheus.image.tag }}"
+          image: "{{ include "continuous-monitoring.image" (list .Values.datasources.prometheus.image.repository .Values.datasources.prometheus.image.tag .Values.datasources.prometheus.image.digest) }}"
           imagePullPolicy: {{ .Values.datasources.prometheus.image.pullPolicy }}
           args:
             - "--config.file=/etc/prometheus/prometheus.yml"
