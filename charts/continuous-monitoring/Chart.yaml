@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.13
+version: 0.1.14
 appVersion: "0.1.1"
 
 keywords:
@@ -22,6 +22,8 @@ maintainers:
 
 annotations:
   artifacthub.io/changes: |
+    - kind: fixed
+      description: "Start mysqld-exporter with an explicit data-source-name argument so it uses the provided DSN secret."
     - kind: fixed
       description: "Ensure MySQL exporter starts with env-provided DSN by disabling default my.cnf requirement."
     - kind: added

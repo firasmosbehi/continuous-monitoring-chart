@@ -59,8 +59,9 @@ spec:
         - name: mysql-exporter
           image: "{{ include "continuous-monitoring.image" (list .Values.databases.mysql.exporter.image.repository .Values.databases.mysql.exporter.image.tag .Values.databases.mysql.exporter.image.digest) }}"
           imagePullPolicy: {{ .Values.databases.mysql.exporter.image.pullPolicy }}
+          command: ["/bin/sh","-c"]
           args:
-            - --config.my-cnf=
+            - mysqld_exporter --config.data-source-name=$DATA_SOURCE_NAME
           env:
             - name: DATA_SOURCE_NAME
               valueFrom:

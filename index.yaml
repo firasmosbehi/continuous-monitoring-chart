@@ -4,6 +4,8 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: "Start mysqld-exporter with an explicit data-source-name argument so it uses the provided DSN secret."
+        - kind: fixed
           description: "Ensure MySQL exporter starts with env-provided DSN by disabling default my.cnf requirement."
         - kind: added
           description: "Add Grafana dashboards and Prometheus scrape jobs for optional Postgres/MySQL sample databases."
@@ -38,7 +40,63 @@ entries:
           image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T20:44:40.380528+01:00"
+    created: "2026-01-23T21:00:19.327588+01:00"
+    description: Helm chart for the Continuous Monitoring service
+    digest: 6495465096b9f1053b13e2c4a924143661540aafc2112f5e5111a94ec3a70b15
+    home: https://github.com/firasmosbehi/continuous-monitoring-chart
+    icon: https://raw.githubusercontent.com/firasmosbehi/continuous-monitoring-chart/main/assets/chart-icon.svg
+    keywords:
+    - monitoring
+    - observability
+    - continuous
+    maintainers:
+    - email: firas.mosbehi@insat.ucar.tn
+      name: Firas Mosbehi
+    name: continuous-monitoring
+    sources:
+    - https://github.com/firasmosbehi/continuous-monitoring-chart
+    type: application
+    urls:
+    - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.14.tgz
+    version: 0.1.14
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: "Ensure MySQL exporter starts with env-provided DSN by disabling default my.cnf requirement."
+        - kind: added
+          description: "Add Grafana dashboards and Prometheus scrape jobs for optional Postgres/MySQL sample databases."
+        - kind: added
+          description: "Add optional Postgres and MySQL test databases with built-in metrics exporters and Prometheus scrape configs."
+        - kind: security
+          description: "Switch node-exporter default image to the master digest to clear known HIGH CVEs (selinux 1.13.0, patched Go stdlib)."
+        - kind: security
+          description: "Refresh defaults to Grafana 12.3.1, Prometheus 3.5.1, Loki/Promtail 3.6.4, node-exporter 1.10.2, and kube-state-metrics 2.18.0 to reduce CVEs."
+        - kind: security
+          description: "Keep all default images pinned by digest to avoid pulling vulnerable variants."
+      artifacthub.io/images: |
+        - name: grafana
+          image: grafana/grafana:12.3.1@sha256:2175aaa91c96733d86d31cf270d5310b278654b03f5718c59de12a865380a31f
+        - name: prometheus
+          image: prom/prometheus:v3.5.1@sha256:38c3b05c3bc744ff1b0b7b4eb82196026442845e62a1e2073795565da506d7a2
+        - name: loki
+          image: grafana/loki:3.6.4@sha256:be31579ac047e9f78b81e48f3b69d3af709e7299b431d5aa78bcda43382f9511
+        - name: promtail
+          image: grafana/promtail:3.6.4@sha256:ba2f727003e28541bf8a9b9ff92a8adbe5a48f1cfe388493f9266bbd94891fe3
+        - name: node-exporter
+          image: quay.io/prometheus/node-exporter:master@sha256:5056097aa05bbb4dc22039cce8f2afa04d2a5223170d8d9b27b409955e3eb19d
+        - name: kube-state-metrics
+          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0@sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
+        - name: postgres
+          image: postgres:17.2-alpine@sha256:7e5df973a74872482e320dcbdeb055e178d6f42de0558b083892c50cda833c96
+        - name: postgres-exporter
+          image: quay.io/prometheuscommunity/postgres-exporter:v0.16.0@sha256:6999a7657e2f2fb0ca6ebf417213eebf6dc7d21b30708c622f6fcb11183a2bb0
+        - name: mysql
+          image: mysql:8.4@sha256:63e8ae20eaef51da56723dbeea68dc75e8baa50429f641ba88e8058ce81e17e2
+        - name: mysqld-exporter
+          image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
+    apiVersion: v2
+    appVersion: 0.1.1
+    created: "2026-01-23T21:00:19.32693+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: a72952e61798e0e84558b0096d214c815ca9267abf13286b20f39287ad3d6899
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -92,7 +150,7 @@ entries:
           image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T20:44:40.379843+01:00"
+    created: "2026-01-23T21:00:19.325968+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: f085c33e7d5100a5dedb6976592c9c9559b122afaaa577aeaaa4de0f7d0611a0
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -144,7 +202,7 @@ entries:
           image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T20:44:40.378857+01:00"
+    created: "2026-01-23T21:00:19.32495+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: f950feeeb216c135e192b5e0ccaf825fa31a9a7c9f473326169cb8f4e12fb250
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -186,7 +244,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0@sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T20:44:40.377665+01:00"
+    created: "2026-01-23T21:00:19.323374+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 1e8d599fc50a9f66bfc2c95c5ae31b1acbd286d761e5cdc6fc98e1759234dde4
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -205,4 +263,4 @@ entries:
     urls:
     - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.10.tgz
     version: 0.1.10
-generated: "2026-01-23T20:44:40.376699+01:00"
+generated: "2026-01-23T21:00:19.322275+01:00"
