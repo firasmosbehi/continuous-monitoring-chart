@@ -32,7 +32,7 @@ Default credentials: `admin/admin`.
 ## Highlights
 - Grafana ships with Prometheus and Loki datasources (when enabled).
 - Prometheus scrapes node-exporter and kube-state-metrics out of the box.
-- Optional sample Postgres and MySQL deployments with built-in exporters for quick metric validation.
+- Optional sample Postgres and MySQL deployments with built-in exporters and Grafana dashboards.
 - Dashboards are gated by the corresponding exporter flags.
 - Promtail collects pod logs to Loki with severity filters and free-text search.
 - Values-driven: toggle components, override images, and tune resources per component.

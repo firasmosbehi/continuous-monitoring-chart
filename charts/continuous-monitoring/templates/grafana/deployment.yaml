@@ -21,7 +21,9 @@ spec:
       {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
       {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
       {{- $logsDashboardEnabled := and .Values.dashboards.enabled .Values.logs.promtail.enabled .Values.datasources.loki.enabled }}
-      {{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled }}
+      {{- $postgresDashboardEnabled := and .Values.dashboards.enabled .Values.databases.postgres.enabled }}
+      {{- $mysqlDashboardEnabled := and .Values.dashboards.enabled .Values.databases.mysql.enabled }}
+      {{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled $postgresDashboardEnabled $mysqlDashboardEnabled }}
       {{- $datasourcesEnabled := and .Values.datasources.enabled (or .Values.datasources.prometheus.enabled .Values.datasources.loki.enabled) }}
       containers:
         - name: grafana
@@ -82,6 +84,10 @@ spec:
               {{- if $logsDashboardEnabled }}
               - configMap:
                   name: {{ include "continuous-monitoring.fullname" . }}-dashboard-logs
+              {{- end }}
+              {{- if or $postgresDashboardEnabled $mysqlDashboardEnabled }}
+              - configMap:
+                  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-databases
               {{- end }}
         {{- end }}
       {{- with .Values.grafana.nodeSelector }}

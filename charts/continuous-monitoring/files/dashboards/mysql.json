@@ -1,0 +1,123 @@
+{
+  "uid": "mysql-overview",
+  "title": "MySQL Overview",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Exporter Up",
+      "datasource": "Prometheus",
+      "id": 1,
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": { "mode": "absolute", "steps": [ { "color": "red", "value": null }, { "color": "green", "value": 1 } ] },
+          "color": { "mode": "thresholds" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        { "expr": "up{job=\"mysql\"}", "refId": "A", "legendFormat": "" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Threads Connected",
+      "datasource": "Prometheus",
+      "id": 2,
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        { "expr": "mysql_global_status_threads_connected", "refId": "A", "legendFormat": "" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Queries/sec",
+      "datasource": "Prometheus",
+      "id": 3,
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "targets": [
+        { "expr": "rate(mysql_global_status_questions[5m])", "refId": "A", "legendFormat": "questions/s" },
+        { "expr": "rate(mysql_global_status_queries[5m])", "refId": "B", "legendFormat": "queries/s" }
+      ]
+    },
+    {
+      "type": "gauge",
+      "title": "Buffer Pool Free %",
+      "datasource": "Prometheus",
+      "id": 4,
+      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "percentage", "steps": [ { "color": "red", "value": null }, { "color": "yellow", "value": 20 }, { "color": "green", "value": 40 } ] }
+        },
+        "overrides": []
+      },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"], "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true },
+      "targets": [
+        {
+          "expr": "(mysql_global_status_innodb_buffer_pool_pages_free / mysql_global_status_innodb_buffer_pool_pages_total) * 100",
+          "refId": "A",
+          "legendFormat": "free %"
+        }
+      ]
+    },
+    {
+      "type": "timeSeries",
+      "title": "Table Locks Waited/sec",
+      "datasource": "Prometheus",
+      "id": 5,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "rate(mysql_global_status_table_locks_waited[5m])", "refId": "A", "legendFormat": "locks_waited/s" }
+      ]
+    },
+    {
+      "type": "timeSeries",
+      "title": "Replication Lag (seconds)",
+      "datasource": "Prometheus",
+      "id": 6,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "mysql_slave_status_seconds_behind_master", "refId": "A", "legendFormat": "lag" }
+      ]
+    }
+  ]
+}

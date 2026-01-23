@@ -1,6 +1,8 @@
 {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
 {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
 {{- $logsDashboardEnabled := and .Values.dashboards.enabled .Values.logs.promtail.enabled .Values.datasources.loki.enabled }}
+{{- $postgresDashboardEnabled := and .Values.dashboards.enabled .Values.databases.postgres.enabled }}
+{{- $mysqlDashboardEnabled := and .Values.dashboards.enabled .Values.databases.mysql.enabled }}
 {{- if $nodeExporterDashboardEnabled }}
 apiVersion: v1
 kind: ConfigMap
@@ -42,4 +44,25 @@ metadata:
 data:
   logs.json: |-
 {{ .Files.Get "files/dashboards/logs.json" | indent 4 }}
+{{- end }}
+{{- if or $postgresDashboardEnabled $mysqlDashboardEnabled }}
+{{- if or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled }}
+---
+{{- end }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-dashboard-databases
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  {{- if $postgresDashboardEnabled }}
+  postgres.json: |-
+{{ .Files.Get "files/dashboards/postgres.json" | indent 4 }}
+  {{- end }}
+  {{- if $mysqlDashboardEnabled }}
+  mysql.json: |-
+{{ .Files.Get "files/dashboards/mysql.json" | indent 4 }}
+  {{- end }}
 {{- end }}

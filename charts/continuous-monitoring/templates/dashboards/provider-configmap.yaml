@@ -1,7 +1,9 @@
 {{- $nodeExporterDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.nodeExporter.enabled }}
 {{- $kubeStateMetricsDashboardEnabled := and .Values.dashboards.enabled .Values.exporters.kubeStateMetrics.enabled }}
 {{- $logsDashboardEnabled := and .Values.dashboards.enabled .Values.logs.promtail.enabled .Values.datasources.loki.enabled }}
-{{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled }}
+{{- $postgresDashboardEnabled := and .Values.dashboards.enabled .Values.databases.postgres.enabled }}
+{{- $mysqlDashboardEnabled := and .Values.dashboards.enabled .Values.databases.mysql.enabled }}
+{{- $dashboardsEnabled := or $nodeExporterDashboardEnabled $kubeStateMetricsDashboardEnabled $logsDashboardEnabled $postgresDashboardEnabled $mysqlDashboardEnabled }}
 {{- if $dashboardsEnabled }}
 apiVersion: v1
 kind: ConfigMap

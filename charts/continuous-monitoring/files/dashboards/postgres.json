@@ -1,0 +1,130 @@
+{
+  "uid": "postgres-overview",
+  "title": "Postgres Overview",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Exporter Up",
+      "datasource": "Prometheus",
+      "id": 1,
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": { "mode": "absolute", "steps": [ { "color": "red", "value": null }, { "color": "green", "value": 1 } ] },
+          "color": { "mode": "thresholds" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        { "expr": "up{job=\"postgres\"}", "refId": "A", "legendFormat": "" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Connections",
+      "datasource": "Prometheus",
+      "id": 2,
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "red", "value": 200 } ] } },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        { "expr": "sum(pg_stat_database_numbackends)", "refId": "A", "legendFormat": "connections" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Transactions/sec",
+      "datasource": "Prometheus",
+      "id": 3,
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "targets": [
+        { "expr": "sum(rate(pg_stat_database_xact_commit[5m]) + rate(pg_stat_database_xact_rollback[5m]))", "refId": "A", "legendFormat": "tps" }
+      ]
+    },
+    {
+      "type": "gauge",
+      "title": "Cache Hit Ratio",
+      "datasource": "Prometheus",
+      "id": 4,
+      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 1,
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [ { "color": "red", "value": 0 }, { "color": "yellow", "value": 0.9 }, { "color": "green", "value": 0.97 } ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"], "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true },
+      "targets": [
+        {
+          "expr": "sum(rate(pg_stat_database_blks_hit[5m])) / (sum(rate(pg_stat_database_blks_hit[5m])) + sum(rate(pg_stat_database_blks_read[5m])))",
+          "refId": "A",
+          "legendFormat": ""
+        }
+      ]
+    },
+    {
+      "type": "timeSeries",
+      "title": "Disk Usage (bytes)",
+      "datasource": "Prometheus",
+      "id": 5,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "pg_database_size_bytes", "refId": "A", "legendFormat": "{{database}}" }
+      ]
+    },
+    {
+      "type": "timeSeries",
+      "title": "WAL Fsyncs/sec",
+      "datasource": "Prometheus",
+      "id": 6,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "sum(rate(pg_stat_wal_fpw_insert[5m]))", "refId": "A", "legendFormat": "full_page_writes" },
+        { "expr": "sum(rate(pg_stat_wal_wal_records[5m]))", "refId": "B", "legendFormat": "wal_records" }
+      ]
+    }
+  ]
+}

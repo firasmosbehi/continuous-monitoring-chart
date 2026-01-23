@@ -24,15 +24,15 @@ Grafana credentials: `admin/admin`.
 - Promtail `3.6.4`
 - Node Exporter `master` digest (current CVE-free build)
 - kube-state-metrics `2.18.0`
-- Optional: Postgres `17.2-alpine` + postgres-exporter `v0.16.0`; MySQL `8.4` + mysqld-exporter `v0.15.0`
+- Optional: Postgres `17.2-alpine` + postgres-exporter `v0.16.0` (with dashboard); MySQL `8.4` + mysqld-exporter `v0.15.0` (with dashboard)
 
 ## Common switches
 - Disable node-exporter: `--set exporters.nodeExporter.enabled=false`
 - Use external Loki: `--set datasources.loki.url=http://loki.example.com`
 - Logs off: `--set logs.promtail.enabled=false --set datasources.loki.enabled=false`
 - Override an image: `--set grafana.image.tag=12.3.1 --set grafana.image.digest=<digest>`
-- Sample Postgres with metrics: `--set databases.postgres.enabled=true`
-- Sample MySQL with metrics: `--set databases.mysql.enabled=true`
+- Sample Postgres with metrics + dashboard: `--set databases.postgres.enabled=true`
+- Sample MySQL with metrics + dashboard: `--set databases.mysql.enabled=true`
 
 ## Operations
 - Lint: `helm lint charts/continuous-monitoring`

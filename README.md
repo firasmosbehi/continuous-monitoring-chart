@@ -5,7 +5,7 @@ Deploy a production-ready monitoring stack with one Helm command. The chart bund
 - Prometheus (metrics)
 - Loki + Promtail (logs)
 - Node Exporter + kube-state-metrics (cluster visibility)
-- Optional sample Postgres and MySQL deployments with built-in exporters for metrics validation
+- Optional sample Postgres and MySQL deployments with built-in exporters and Grafana dashboards for metrics validation
 
 Defaults are safe, images are pinned by digest, and every component can be toggled via values.
 
