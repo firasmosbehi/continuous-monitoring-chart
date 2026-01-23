@@ -3,24 +3,24 @@ exporters:
     enabled: true
     image:
       repository: quay.io/prometheus/node-exporter
-      tag: v1.8.1
-      digest: sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631
+      tag: master
+      digest: sha256:5056097aa05bbb4dc22039cce8f2afa04d2a5223170d8d9b27b409955e3eb19d
       pullPolicy: IfNotPresent
 
   kubeStateMetrics:
     enabled: true
     image:
       repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
-      tag: v2.13.0
-      digest: sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
+      tag: v2.18.0
+      digest: sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
       pullPolicy: IfNotPresent
 
 grafana:
   enabled: true
   image:
     repository: grafana/grafana
-    tag: "11.2.2"
-    digest: sha256:d5133220d770aba5cb655147b619fa8770b90f41d8489a821d33b1cd34d16f89
+    tag: "12.3.1"
+    digest: sha256:2175aaa91c96733d86d31cf270d5310b278654b03f5718c59de12a865380a31f
     pullPolicy: IfNotPresent
 
 datasources:
@@ -29,15 +29,15 @@ datasources:
     enabled: true
     image:
       repository: prom/prometheus
-      tag: v2.54.1
-      digest: sha256:f6639335d34a77d9d9db382b92eeb7fc00934be8eae81dbc03b31cfe90411a94
+      tag: v3.5.1
+      digest: sha256:38c3b05c3bc744ff1b0b7b4eb82196026442845e62a1e2073795565da506d7a2
       pullPolicy: IfNotPresent
   loki:
     enabled: true
     image:
       repository: grafana/loki
-      tag: "3.1.1"
-      digest: sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986
+      tag: "3.6.4"
+      digest: sha256:be31579ac047e9f78b81e48f3b69d3af709e7299b431d5aa78bcda43382f9511
       pullPolicy: IfNotPresent
     url: ""
 
@@ -46,8 +46,8 @@ logs:
     enabled: true
     image:
       repository: grafana/promtail
-      tag: "3.1.1"
-      digest: sha256:48fba41d9f08c6a56a85b078529dc8550a1809d3e7a9674982e9e9bfbdc854c1
+      tag: "3.6.4"
+      digest: sha256:ba2f727003e28541bf8a9b9ff92a8adbe5a48f1cfe388493f9266bbd94891fe3
       pullPolicy: IfNotPresent
     clientUrl: ""
     resources: {}

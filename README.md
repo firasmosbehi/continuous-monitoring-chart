@@ -1,64 +1,62 @@
 # Continuous Monitoring Helm Chart
 
-Deploy a production-ready monitoring stack with a single Helm install. This chart bundles Grafana for visualization, Prometheus for metrics scraping, Loki for log aggregation, Promtail for log collection, and exporters for node and Kubernetes state metrics. It is designed for quick cluster observability with sensible defaults and clear extension points.
+Deploy a production-ready monitoring stack with one Helm command. The chart bundles:
+- Grafana (dashboards + pre-provisioned datasources)
+- Prometheus (metrics)
+- Loki + Promtail (logs)
+- Node Exporter + kube-state-metrics (cluster visibility)
 
-## What you get
-- Grafana pre-provisioned with Prometheus and Loki datasources.
-- Node exporter and kube-state-metrics for cluster and node visibility.
-- Promtail shipping pod logs to Loki with curated logs dashboards.
-- Curated dashboards gated by exporter enablement.
-- Simple, values-driven configuration for turning components on or off.
-
-## Repository layout
-- `charts/continuous-monitoring/`: Helm chart source (templates, values, chart metadata).
-- `artifacthub-repo.yml`: Artifact Hub repository metadata.
+Defaults are safe, images are pinned by digest, and every component can be toggled via values.
 
 ## Quickstart
 ```sh
 helm repo add continuous-monitoring https://firasmosbehi.github.io/continuous-monitoring-chart
 helm install continuous-monitoring continuous-monitoring/continuous-monitoring
 ```
-
-Grafana local access:
+Access Grafana locally:
 ```sh
 kubectl port-forward svc/continuous-monitoring-continuous-monitoring-grafana 3000:3000
+open http://localhost:3000
 ```
-Open `http://localhost:3000` (default credentials: admin/admin).
+Default credentials: `admin/admin`.
 
-## Local development
-- Lint the chart: `helm lint charts/continuous-monitoring`
+## Default components and versions
+- Grafana `12.3.1`
+- Prometheus `3.5.1`
+- Loki `3.6.4`
+- Promtail `3.6.4`
+- Node Exporter `master` (current digest with CVE fixes)
+- kube-state-metrics `2.18.0`
+
+All images are pinned by digest for reproducibility and to avoid pulling vulnerable variants.
+
+## Configure the chart
+- Enable/disable components: `grafana.enabled`, `datasources.prometheus.enabled`, `datasources.loki.enabled`, `logs.promtail.enabled`, `exporters.nodeExporter.enabled`, `exporters.kubeStateMetrics.enabled`, `dashboards.enabled`.
+- Override images: `.image.repository`, `.image.tag`, `.image.digest` per component.
+- Resource tuning: `resources`, `nodeSelector`, `affinity`, `tolerations` per workload.
+- Loki URL override: `datasources.loki.url` or `logs.promtail.clientUrl`.
+
+See the full values table in `charts/continuous-monitoring/README.md`.
+
+## Validate locally
+- Lint: `helm lint charts/continuous-monitoring`
 - Render manifests: `helm template continuous-monitoring charts/continuous-monitoring`
 
 ## Release workflow
-- Package the chart: `helm package charts/continuous-monitoring`
-- Update repo index: `helm repo index .`
-- Upload the `.tgz` and `index.yaml` to your chart hosting (GitHub Pages, S3, etc.).
-- Keep `artifacthub-repo.yml` updated when repository metadata changes.
-
-## Documentation
-For install and configuration details, see `charts/continuous-monitoring/README.md`.
-
-## Architecture overview
-- Grafana provides dashboards and datasources.
-- Prometheus scrapes node-exporter and kube-state-metrics.
-- Loki provides log aggregation when enabled.
-- Dashboards are provisioned only if their exporters are enabled.
-
-## CI details
-- CI packages the chart and publishes releases to the chart repository.
-- Artifact Hub metadata is maintained in `artifacthub-repo.yml`.
-
-## Release checklist
-- Bump chart version in `charts/continuous-monitoring/Chart.yaml`.
-- Validate the chart: `helm lint charts/continuous-monitoring`.
-- Package: `helm package charts/continuous-monitoring`.
-- Update repo index: `helm repo index .`.
-- Publish `.tgz` and `index.yaml` to the hosting location.
-- Verify installation from the published repo.
+1) Bump chart version in `charts/continuous-monitoring/Chart.yaml`.  
+2) `helm lint charts/continuous-monitoring`  
+3) `helm package charts/continuous-monitoring`  
+4) `helm repo index .` (for GitHub Pages/S3 hosting)  
+5) Publish the `.tgz` and `index.yaml`; keep `artifacthub-repo.yml` in sync.
 
 ## Troubleshooting
-- Helm stuck in pending upgrade: check `helm history continuous-monitoring`, then rollback a known-good revision.
-- Cluster unreachable: verify context and DNS with `kubectl cluster-info` and confirm kubeconfig points to the target cluster.
+- Helm upgrade stuck: `helm history continuous-monitoring` then `helm rollback <rev>`.
+- Cluster reachability issues: `kubectl cluster-info` and kubeconfig context checks.
+- Dashboards missing: confirm `dashboards.enabled=true` and the related exporter is enabled.
+
+## Project layout
+- `charts/continuous-monitoring/`: Helm chart source (Chart.yaml, templates, values, README).
+- `artifacthub-repo.yml`: Artifact Hub repository metadata.
 
 ## Helm repo URL
 `https://firasmosbehi.github.io/continuous-monitoring-chart`

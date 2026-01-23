@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.8
+version: 0.1.10
 appVersion: "0.1.1"
 
 keywords:
@@ -22,30 +22,22 @@ maintainers:
 
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Set a custom chart icon for better identification in Artifact Hub."
     - kind: security
-      description: "Pin images by digest to avoid pulling vulnerable variants."
+      description: "Switch node-exporter default image to the master digest to clear known HIGH CVEs (selinux 1.13.0, patched Go stdlib)."
     - kind: security
-      description: "Refresh default images (Grafana 11.2.2, Prometheus 2.54.1, Loki/Promtail 3.1.1, Node Exporter 1.8.1, kube-state-metrics 2.13.0) to address CVEs."
-    - kind: added
-      description: "Add log state (error/warning/normal) and free-text filters to the Cluster Logs dashboard."
-    - kind: fixed
-      description: "Ensure the Cluster Logs dashboard uses valid Loki filters when 'Normal' is selected."
-    - kind: fixed
-      description: "Fix Promtail Kubernetes SD by binding to the node name and restore log ingestion."
-    - kind: changed
-      description: "Merge log dashboards into a single consolidated view."
+      description: "Refresh defaults to Grafana 12.3.1, Prometheus 3.5.1, Loki/Promtail 3.6.4, node-exporter 1.10.2, and kube-state-metrics 2.18.0 to reduce CVEs."
+    - kind: security
+      description: "Keep all default images pinned by digest to avoid pulling vulnerable variants."
   artifacthub.io/images: |
     - name: grafana
-      image: grafana/grafana:11.2.2@sha256:d5133220d770aba5cb655147b619fa8770b90f41d8489a821d33b1cd34d16f89
+      image: grafana/grafana:12.3.1@sha256:2175aaa91c96733d86d31cf270d5310b278654b03f5718c59de12a865380a31f
     - name: prometheus
-      image: prom/prometheus:v2.54.1@sha256:f6639335d34a77d9d9db382b92eeb7fc00934be8eae81dbc03b31cfe90411a94
+      image: prom/prometheus:v3.5.1@sha256:38c3b05c3bc744ff1b0b7b4eb82196026442845e62a1e2073795565da506d7a2
     - name: loki
-      image: grafana/loki:3.1.1@sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986
+      image: grafana/loki:3.6.4@sha256:be31579ac047e9f78b81e48f3b69d3af709e7299b431d5aa78bcda43382f9511
     - name: promtail
-      image: grafana/promtail:3.1.1@sha256:48fba41d9f08c6a56a85b078529dc8550a1809d3e7a9674982e9e9bfbdc854c1
+      image: grafana/promtail:3.6.4@sha256:ba2f727003e28541bf8a9b9ff92a8adbe5a48f1cfe388493f9266bbd94891fe3
     - name: node-exporter
-      image: quay.io/prometheus/node-exporter:v1.8.1@sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631
+      image: quay.io/prometheus/node-exporter:master@sha256:5056097aa05bbb4dc22039cce8f2afa04d2a5223170d8d9b27b409955e3eb19d
     - name: kube-state-metrics
-      image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0@sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
+      image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0@sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
