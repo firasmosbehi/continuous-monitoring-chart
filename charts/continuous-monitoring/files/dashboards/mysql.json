@@ -52,7 +52,7 @@
     },
     {
       "type": "stat",
-      "title": "Queries/sec",
+      "title": "Threads Running",
       "datasource": "Prometheus",
       "id": 3,
       "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
@@ -60,63 +60,191 @@
       "options": {
         "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
         "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        { "expr": "mysql_global_status_threads_running", "refId": "A", "legendFormat": "" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Queries/sec",
+      "datasource": "Prometheus",
+      "id": 4,
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "colorMode": "value",
         "graphMode": "area"
       },
       "targets": [
-        { "expr": "rate(mysql_global_status_questions[5m])", "refId": "A", "legendFormat": "questions/s" },
-        { "expr": "rate(mysql_global_status_queries[5m])", "refId": "B", "legendFormat": "queries/s" }
+        { "expr": "sum(rate(mysql_global_status_queries[5m]))", "refId": "A", "legendFormat": "queries/s" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Slow Queries/sec",
+      "datasource": "Prometheus",
+      "id": 5,
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "targets": [
+        { "expr": "sum(rate(mysql_global_status_slow_queries[5m]))", "refId": "A", "legendFormat": "slow/s" }
       ]
     },
     {
       "type": "gauge",
-      "title": "Buffer Pool Free %",
+      "title": "Buffer Pool Usage %",
       "datasource": "Prometheus",
-      "id": 4,
-      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 0 },
+      "id": 6,
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 4 },
       "fieldConfig": {
         "defaults": {
           "min": 0,
           "max": 100,
           "color": { "mode": "thresholds" },
-          "thresholds": { "mode": "percentage", "steps": [ { "color": "red", "value": null }, { "color": "yellow", "value": 20 }, { "color": "green", "value": 40 } ] }
+          "thresholds": { "mode": "percentage", "steps": [ { "color": "red", "value": null }, { "color": "yellow", "value": 60 }, { "color": "green", "value": 80 } ] }
         },
         "overrides": []
       },
       "options": { "reduceOptions": { "calcs": ["lastNotNull"], "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true },
       "targets": [
         {
-          "expr": "(mysql_global_status_innodb_buffer_pool_pages_free / mysql_global_status_innodb_buffer_pool_pages_total) * 100",
+          "expr": "(1 - (mysql_global_status_innodb_buffer_pool_pages_free / mysql_global_status_innodb_buffer_pool_pages_total)) * 100",
           "refId": "A",
-          "legendFormat": "free %"
+          "legendFormat": "usage %"
         }
       ]
     },
     {
-      "type": "timeSeries",
-      "title": "Table Locks Waited/sec",
+      "type": "gauge",
+      "title": "Buffer Pool Dirty %",
       "datasource": "Prometheus",
-      "id": 5,
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
-      "options": {
-        "legend": { "displayMode": "list", "placement": "bottom" },
-        "tooltip": { "mode": "single" }
+      "id": 7,
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "percentage", "steps": [ { "color": "green", "value": null }, { "color": "yellow", "value": 20 }, { "color": "red", "value": 40 } ] }
+        },
+        "overrides": []
       },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"], "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true },
       "targets": [
-        { "expr": "rate(mysql_global_status_table_locks_waited[5m])", "refId": "A", "legendFormat": "locks_waited/s" }
+        {
+          "expr": "(mysql_global_status_innodb_buffer_pool_bytes_dirty / mysql_global_status_innodb_buffer_pool_bytes_data) * 100",
+          "refId": "A",
+          "legendFormat": "dirty %"
+        }
       ]
     },
     {
-      "type": "timeSeries",
-      "title": "Replication Lag (seconds)",
+      "type": "timeseries",
+      "title": "Connections/sec",
       "datasource": "Prometheus",
-      "id": 6,
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "id": 8,
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 4 },
       "options": {
         "legend": { "displayMode": "list", "placement": "bottom" },
         "tooltip": { "mode": "single" }
       },
       "targets": [
-        { "expr": "mysql_slave_status_seconds_behind_master", "refId": "A", "legendFormat": "lag" }
+        { "expr": "sum(rate(mysql_global_status_connections[5m]))", "refId": "A", "legendFormat": "connections/s" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "InnoDB Row Ops/sec",
+      "datasource": "Prometheus",
+      "id": 9,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "rate(mysql_global_status_innodb_rows_read[5m])", "refId": "A", "legendFormat": "rows_read/s" },
+        { "expr": "rate(mysql_global_status_innodb_rows_inserted[5m])", "refId": "B", "legendFormat": "rows_inserted/s" },
+        { "expr": "rate(mysql_global_status_innodb_rows_updated[5m])", "refId": "C", "legendFormat": "rows_updated/s" },
+        { "expr": "rate(mysql_global_status_innodb_rows_deleted[5m])", "refId": "D", "legendFormat": "rows_deleted/s" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Opened Tables/sec",
+      "datasource": "Prometheus",
+      "id": 10,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "sum(rate(mysql_global_status_opened_tables[5m]))", "refId": "A", "legendFormat": "opened_tables/s" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Table Locks Waited/sec",
+      "datasource": "Prometheus",
+      "id": 11,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "sum(rate(mysql_global_status_table_locks_waited[5m]))", "refId": "A", "legendFormat": "locks_waited/s" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Replication Lag (seconds)",
+      "datasource": "Prometheus",
+      "id": 12,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "max(mysql_slave_status_seconds_behind_master)", "refId": "A", "legendFormat": "lag" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Aborted Connects/sec",
+      "datasource": "Prometheus",
+      "id": 13,
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 26 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "sum(rate(mysql_global_status_aborted_connects[5m]))", "refId": "A", "legendFormat": "aborted/s" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Temp Tables on Disk/sec",
+      "datasource": "Prometheus",
+      "id": 14,
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 26 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        { "expr": "sum(rate(mysql_global_status_created_tmp_disk_tables[5m]))", "refId": "A", "legendFormat": "tmp_disk_tables/s" }
       ]
     }
   ]

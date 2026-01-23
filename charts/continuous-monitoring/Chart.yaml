@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.15
+version: 0.1.16
 appVersion: "0.1.1"
 
 keywords:
@@ -22,6 +22,8 @@ maintainers:
 
 annotations:
   artifacthub.io/changes: |
+    - kind: changed
+      description: "Expand the MySQL dashboard with connection, buffer pool, row ops, temp tables, locks, and replication panels."
     - kind: fixed
       description: "Mount a generated MySQL my.cnf secret and point mysqld-exporter at it to stop DSN parsing errors."
     - kind: fixed
