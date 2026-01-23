@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.12
+version: 0.1.13
 appVersion: "0.1.1"
 
 keywords:
@@ -22,6 +22,8 @@ maintainers:
 
 annotations:
   artifacthub.io/changes: |
+    - kind: fixed
+      description: "Ensure MySQL exporter starts with env-provided DSN by disabling default my.cnf requirement."
     - kind: added
       description: "Add Grafana dashboards and Prometheus scrape jobs for optional Postgres/MySQL sample databases."
     - kind: added
