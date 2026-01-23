@@ -1,0 +1,101 @@
+{{- if .Values.databases.postgres.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-postgres
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+    app.kubernetes.io/part-of: databases
+spec:
+  serviceName: {{ include "continuous-monitoring.fullname" . }}-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "continuous-monitoring.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: postgres
+  template:
+    metadata:
+      labels:
+        {{- include "continuous-monitoring.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: "{{ include "continuous-monitoring.image" (list .Values.databases.postgres.image.repository .Values.databases.postgres.image.tag .Values.databases.postgres.image.digest) }}"
+          imagePullPolicy: {{ .Values.databases.postgres.image.pullPolicy }}
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-postgres-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.postgres.auth.existingSecret }}
+                  key: database
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-postgres-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.postgres.auth.existingSecret }}
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-postgres-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.postgres.auth.existingSecret }}
+                  key: password
+          ports:
+            - containerPort: {{ .Values.databases.postgres.service.port }}
+              name: postgres
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          {{- with .Values.databases.postgres.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        - name: postgres-exporter
+          image: "{{ include "continuous-monitoring.image" (list .Values.databases.postgres.exporter.image.repository .Values.databases.postgres.exporter.image.tag .Values.databases.postgres.exporter.image.digest) }}"
+          imagePullPolicy: {{ .Values.databases.postgres.exporter.image.pullPolicy }}
+          env:
+            - name: DATA_SOURCE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-postgres-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.postgres.auth.existingSecret }}
+                  key: dsn
+          ports:
+            - containerPort: {{ .Values.databases.postgres.service.exporterPort }}
+              name: metrics
+              protocol: TCP
+          {{- with .Values.databases.postgres.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.databases.postgres.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.databases.postgres.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.databases.postgres.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if not .Values.databases.postgres.persistence.enabled }}
+      volumes:
+        - name: data
+          emptyDir: {}
+      {{- end }}
+  {{- if .Values.databases.postgres.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        {{- if .Values.databases.postgres.persistence.storageClass }}
+        storageClassName: {{ .Values.databases.postgres.persistence.storageClass }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.databases.postgres.persistence.size }}
+  {{- end }}
+{{- end }}

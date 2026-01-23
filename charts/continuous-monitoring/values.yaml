@@ -57,3 +57,64 @@ logs:
 
 dashboards:
   enabled: true
+
+databases:
+  postgres:
+    enabled: false
+    image:
+      repository: postgres
+      tag: "17.2-alpine"
+      digest: sha256:7e5df973a74872482e320dcbdeb055e178d6f42de0558b083892c50cda833c96
+      pullPolicy: IfNotPresent
+    exporter:
+      image:
+        repository: quay.io/prometheuscommunity/postgres-exporter
+        tag: v0.16.0
+        digest: sha256:6999a7657e2f2fb0ca6ebf417213eebf6dc7d21b30708c622f6fcb11183a2bb0
+        pullPolicy: IfNotPresent
+    auth:
+      database: app
+      username: app
+      password: changeme
+      existingSecret: ""
+    service:
+      port: 5432
+      exporterPort: 9187
+    persistence:
+      enabled: false
+      size: 1Gi
+      storageClass: ""
+    resources: {}
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
+
+  mysql:
+    enabled: false
+    image:
+      repository: mysql
+      tag: "8.4"
+      digest: sha256:63e8ae20eaef51da56723dbeea68dc75e8baa50429f641ba88e8058ce81e17e2
+      pullPolicy: IfNotPresent
+    exporter:
+      image:
+        repository: prom/mysqld-exporter
+        tag: v0.15.0
+        digest: sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
+        pullPolicy: IfNotPresent
+    auth:
+      database: app
+      username: app
+      password: changeme
+      existingSecret: ""
+    service:
+      port: 3306
+      exporterPort: 9104
+    persistence:
+      enabled: false
+      size: 1Gi
+      storageClass: ""
+    resources: {}
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []

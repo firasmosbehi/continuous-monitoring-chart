@@ -1,0 +1,106 @@
+{{- if .Values.databases.mysql.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-mysql
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: mysql
+    app.kubernetes.io/part-of: databases
+spec:
+  serviceName: {{ include "continuous-monitoring.fullname" . }}-mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "continuous-monitoring.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: mysql
+  template:
+    metadata:
+      labels:
+        {{- include "continuous-monitoring.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: "{{ include "continuous-monitoring.image" (list .Values.databases.mysql.image.repository .Values.databases.mysql.image.tag .Values.databases.mysql.image.digest) }}"
+          imagePullPolicy: {{ .Values.databases.mysql.image.pullPolicy }}
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
+                  key: database
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
+                  key: password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
+                  key: password
+          ports:
+            - containerPort: {{ .Values.databases.mysql.service.port }}
+              name: mysql
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          {{- with .Values.databases.mysql.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        - name: mysql-exporter
+          image: "{{ include "continuous-monitoring.image" (list .Values.databases.mysql.exporter.image.repository .Values.databases.mysql.exporter.image.tag .Values.databases.mysql.exporter.image.digest) }}"
+          imagePullPolicy: {{ .Values.databases.mysql.exporter.image.pullPolicy }}
+          env:
+            - name: DATA_SOURCE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
+                  key: dsn
+          ports:
+            - containerPort: {{ .Values.databases.mysql.service.exporterPort }}
+              name: metrics
+              protocol: TCP
+          {{- with .Values.databases.mysql.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.databases.mysql.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.databases.mysql.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.databases.mysql.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if not .Values.databases.mysql.persistence.enabled }}
+      volumes:
+        - name: data
+          emptyDir: {}
+      {{- end }}
+  {{- if .Values.databases.mysql.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        {{- if .Values.databases.mysql.persistence.storageClass }}
+        storageClassName: {{ .Values.databases.mysql.persistence.storageClass }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.databases.mysql.persistence.size }}
+  {{- end }}
+{{- end }}

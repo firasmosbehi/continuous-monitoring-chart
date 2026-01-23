@@ -12,3 +12,15 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: ['{{ include "continuous-monitoring.fullname" . }}-kube-state-metrics:8080']
+  {{- if .Values.databases.postgres.enabled }}
+  - job_name: postgres
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['{{ include "continuous-monitoring.fullname" . }}-postgres:{{ .Values.databases.postgres.service.exporterPort }}']
+  {{- end }}
+  {{- if .Values.databases.mysql.enabled }}
+  - job_name: mysql
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['{{ include "continuous-monitoring.fullname" . }}-mysql:{{ .Values.databases.mysql.service.exporterPort }}']
+  {{- end }}

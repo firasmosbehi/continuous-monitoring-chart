@@ -32,6 +32,7 @@ Default credentials: `admin/admin`.
 ## Highlights
 - Grafana ships with Prometheus and Loki datasources (when enabled).
 - Prometheus scrapes node-exporter and kube-state-metrics out of the box.
+- Optional sample Postgres and MySQL deployments with built-in exporters for quick metric validation.
 - Dashboards are gated by the corresponding exporter flags.
 - Promtail collects pod logs to Loki with severity filters and free-text search.
 - Values-driven: toggle components, override images, and tune resources per component.
@@ -58,6 +59,8 @@ Effects of key values in `values.yaml`:
 - `datasources.loki.*`: controls the Loki Deployment and datasource; disable to skip in-cluster Loki; `url` overrides the datasource target; adjust image/digest/pullPolicy/resources/scheduling.
 - `logs.promtail.*`: controls the Promtail DaemonSet; disable to stop log collection/shipping; `clientUrl` overrides Loki push target; adjust image/digest/pullPolicy/resources/scheduling.
 - `dashboards.enabled`: global toggle for dashboard provisioning (still gated by exporter flags).
+- `databases.postgres.*`: optional Postgres StatefulSet with sidecar exporter; control image/digest, credentials, ports, persistence, and scheduling.
+- `databases.mysql.*`: optional MySQL StatefulSet with sidecar exporter; control image/digest, credentials, ports, persistence, and scheduling.
 
 | Key | Type | Default | Description |
 | --- | ---- | ------- | ----------- |
@@ -121,6 +124,50 @@ Effects of key values in `values.yaml`:
 | logs.promtail.affinity | object | `{}` | Promtail affinity rules. |
 | logs.promtail.tolerations | list | `[]` | Promtail tolerations. |
 | dashboards.enabled | bool | `true` | Enable dashboard provisioning. |
+| databases.postgres.enabled | bool | `false` | Deploy a sample Postgres StatefulSet with metrics exporter. |
+| databases.postgres.image.repository | string | `"postgres"` | Postgres image repository. |
+| databases.postgres.image.tag | string | `"17.2-alpine"` | Postgres image tag. |
+| databases.postgres.image.digest | string | `"sha256:7e5df973a74872482e320dcbdeb055e178d6f42de0558b083892c50cda833c96"` | Postgres image digest. |
+| databases.postgres.image.pullPolicy | string | `"IfNotPresent"` | Postgres image pull policy. |
+| databases.postgres.exporter.image.repository | string | `"quay.io/prometheuscommunity/postgres-exporter"` | Postgres exporter image repository. |
+| databases.postgres.exporter.image.tag | string | `"v0.16.0"` | Postgres exporter image tag. |
+| databases.postgres.exporter.image.digest | string | `"sha256:6999a7657e2f2fb0ca6ebf417213eebf6dc7d21b30708c622f6fcb11183a2bb0"` | Postgres exporter image digest. |
+| databases.postgres.exporter.image.pullPolicy | string | `"IfNotPresent"` | Postgres exporter image pull policy. |
+| databases.postgres.auth.database | string | `"app"` | Postgres database name. |
+| databases.postgres.auth.username | string | `"app"` | Postgres username. |
+| databases.postgres.auth.password | string | `"changeme"` | Postgres password (use secrets/overrides in production). |
+| databases.postgres.auth.existingSecret | string | `""` | Use an existing secret for Postgres credentials/DSN (keys: username, password, database, dsn). |
+| databases.postgres.service.port | int | `5432` | Postgres service port. |
+| databases.postgres.service.exporterPort | int | `9187` | Postgres exporter service port. |
+| databases.postgres.persistence.enabled | bool | `false` | Enable PVC-backed storage for Postgres. |
+| databases.postgres.persistence.size | string | `"1Gi"` | Postgres PVC size. |
+| databases.postgres.persistence.storageClass | string | `""` | Postgres storage class (empty for default). |
+| databases.postgres.resources | object | `{}` | Postgres pod resource requests/limits. |
+| databases.postgres.nodeSelector | object | `{}` | Postgres node selector. |
+| databases.postgres.affinity | object | `{}` | Postgres affinity rules. |
+| databases.postgres.tolerations | list | `[]` | Postgres tolerations. |
+| databases.mysql.enabled | bool | `false` | Deploy a sample MySQL StatefulSet with metrics exporter. |
+| databases.mysql.image.repository | string | `"mysql"` | MySQL image repository. |
+| databases.mysql.image.tag | string | `"8.4"` | MySQL image tag. |
+| databases.mysql.image.digest | string | `"sha256:63e8ae20eaef51da56723dbeea68dc75e8baa50429f641ba88e8058ce81e17e2"` | MySQL image digest. |
+| databases.mysql.image.pullPolicy | string | `"IfNotPresent"` | MySQL image pull policy. |
+| databases.mysql.exporter.image.repository | string | `"prom/mysqld-exporter"` | MySQL exporter image repository. |
+| databases.mysql.exporter.image.tag | string | `"v0.15.0"` | MySQL exporter image tag. |
+| databases.mysql.exporter.image.digest | string | `"sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e"` | MySQL exporter image digest. |
+| databases.mysql.exporter.image.pullPolicy | string | `"IfNotPresent"` | MySQL exporter image pull policy. |
+| databases.mysql.auth.database | string | `"app"` | MySQL database name. |
+| databases.mysql.auth.username | string | `"app"` | MySQL username. |
+| databases.mysql.auth.password | string | `"changeme"` | MySQL password (use secrets/overrides in production). |
+| databases.mysql.auth.existingSecret | string | `""` | Use an existing secret for MySQL credentials/DSN (keys: username, password, database, dsn). |
+| databases.mysql.service.port | int | `3306` | MySQL service port. |
+| databases.mysql.service.exporterPort | int | `9104` | MySQL exporter service port. |
+| databases.mysql.persistence.enabled | bool | `false` | Enable PVC-backed storage for MySQL. |
+| databases.mysql.persistence.size | string | `"1Gi"` | MySQL PVC size. |
+| databases.mysql.persistence.storageClass | string | `""` | MySQL storage class (empty for default). |
+| databases.mysql.resources | object | `{}` | MySQL pod resource requests/limits. |
+| databases.mysql.nodeSelector | object | `{}` | MySQL node selector. |
+| databases.mysql.affinity | object | `{}` | MySQL affinity rules. |
+| databases.mysql.tolerations | list | `[]` | MySQL tolerations. |
 
 ## Troubleshooting
 - Grafana CrashLoop on dashboard provisioning: `kubectl logs deploy/continuous-monitoring-continuous-monitoring-grafana` and confirm dashboard provider configmaps exist.

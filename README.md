@@ -5,6 +5,7 @@ Deploy a production-ready monitoring stack with one Helm command. The chart bund
 - Prometheus (metrics)
 - Loki + Promtail (logs)
 - Node Exporter + kube-state-metrics (cluster visibility)
+- Optional sample Postgres and MySQL deployments with built-in exporters for metrics validation
 
 Defaults are safe, images are pinned by digest, and every component can be toggled via values.
 
@@ -27,6 +28,7 @@ Default credentials: `admin/admin`.
 - Promtail `3.6.4`
 - Node Exporter `master` (current digest with CVE fixes)
 - kube-state-metrics `2.18.0`
+- Optional: Postgres `17.2-alpine` + postgres-exporter `v0.16.0`; MySQL `8.4` + mysqld-exporter `v0.15.0`
 
 All images are pinned by digest for reproducibility and to avoid pulling vulnerable variants.
 
@@ -35,6 +37,8 @@ All images are pinned by digest for reproducibility and to avoid pulling vulnera
 - Override images: `.image.repository`, `.image.tag`, `.image.digest` per component.
 - Resource tuning: `resources`, `nodeSelector`, `affinity`, `tolerations` per workload.
 - Loki URL override: `datasources.loki.url` or `logs.promtail.clientUrl`.
+- Spin up sample Postgres with metrics: `--set databases.postgres.enabled=true`
+- Spin up sample MySQL with metrics: `--set databases.mysql.enabled=true`
 
 See the full values table in `charts/continuous-monitoring/README.md`.
 

@@ -1,0 +1,24 @@
+{{- if .Values.databases.mysql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-mysql
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: mysql
+    app.kubernetes.io/part-of: databases
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "continuous-monitoring.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: mysql
+  ports:
+    - name: mysql
+      port: {{ .Values.databases.mysql.service.port }}
+      targetPort: mysql
+      protocol: TCP
+    - name: metrics
+      port: {{ .Values.databases.mysql.service.exporterPort }}
+      targetPort: metrics
+      protocol: TCP
+{{- end }}

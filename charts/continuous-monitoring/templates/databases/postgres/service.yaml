@@ -1,0 +1,24 @@
+{{- if .Values.databases.postgres.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "continuous-monitoring.fullname" . }}-postgres
+  labels:
+    {{- include "continuous-monitoring.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+    app.kubernetes.io/part-of: databases
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "continuous-monitoring.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+  ports:
+    - name: postgres
+      port: {{ .Values.databases.postgres.service.port }}
+      targetPort: postgres
+      protocol: TCP
+    - name: metrics
+      port: {{ .Values.databases.postgres.service.exporterPort }}
+      targetPort: metrics
+      protocol: TCP
+{{- end }}

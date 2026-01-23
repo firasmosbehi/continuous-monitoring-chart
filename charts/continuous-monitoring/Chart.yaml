@@ -3,7 +3,7 @@ name: continuous-monitoring
 description: Helm chart for the Continuous Monitoring service
 
 type: application
-version: 0.1.10
+version: 0.1.11
 appVersion: "0.1.1"
 
 keywords:
@@ -22,6 +22,8 @@ maintainers:
 
 annotations:
   artifacthub.io/changes: |
+    - kind: added
+      description: "Add optional Postgres and MySQL test databases with built-in metrics exporters and Prometheus scrape configs."
     - kind: security
       description: "Switch node-exporter default image to the master digest to clear known HIGH CVEs (selinux 1.13.0, patched Go stdlib)."
     - kind: security
@@ -41,3 +43,11 @@ annotations:
       image: quay.io/prometheus/node-exporter:master@sha256:5056097aa05bbb4dc22039cce8f2afa04d2a5223170d8d9b27b409955e3eb19d
     - name: kube-state-metrics
       image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0@sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
+    - name: postgres
+      image: postgres:17.2-alpine@sha256:7e5df973a74872482e320dcbdeb055e178d6f42de0558b083892c50cda833c96
+    - name: postgres-exporter
+      image: quay.io/prometheuscommunity/postgres-exporter:v0.16.0@sha256:6999a7657e2f2fb0ca6ebf417213eebf6dc7d21b30708c622f6fcb11183a2bb0
+    - name: mysql
+      image: mysql:8.4@sha256:63e8ae20eaef51da56723dbeea68dc75e8baa50429f641ba88e8058ce81e17e2
+    - name: mysqld-exporter
+      image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
