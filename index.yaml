@@ -36,9 +36,9 @@ entries:
           image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T18:38:23.994256734Z"
+    created: "2026-01-23T19:38:50.068104+01:00"
     description: Helm chart for the Continuous Monitoring service
-    digest: 81077c783a34d0169812641ab9b7aac033bd542e9d5b34e27b09c66d02c8701b
+    digest: f085c33e7d5100a5dedb6976592c9c9559b122afaaa577aeaaa4de0f7d0611a0
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
     icon: https://raw.githubusercontent.com/firasmosbehi/continuous-monitoring-chart/main/assets/chart-icon.svg
     keywords:
@@ -53,7 +53,7 @@ entries:
     - https://github.com/firasmosbehi/continuous-monitoring-chart
     type: application
     urls:
-    - https://github.com/firasmosbehi/continuous-monitoring-chart/releases/download/continuous-monitoring-0.1.12/continuous-monitoring-0.1.12.tgz
+    - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.12.tgz
     version: 0.1.12
   - annotations:
       artifacthub.io/changes: |
@@ -88,7 +88,7 @@ entries:
           image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.272866+01:00"
+    created: "2026-01-23T19:38:50.067475+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: f950feeeb216c135e192b5e0ccaf825fa31a9a7c9f473326169cb8f4e12fb250
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -130,7 +130,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0@sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.272219+01:00"
+    created: "2026-01-23T19:38:50.066687+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 1e8d599fc50a9f66bfc2c95c5ae31b1acbd286d761e5cdc6fc98e1759234dde4
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -180,7 +180,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0@sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.277002+01:00"
+    created: "2026-01-23T19:38:50.071736+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 34685cd81735aded5ba5a837d328998edb8a487a3167ef2d903043f8f6df6167
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -228,7 +228,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0@sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.27595+01:00"
+    created: "2026-01-23T19:38:50.070721+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 67ce299475eea8e6fd980767ba82fb098f7487c93caa66935b91a250cf88a275
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -273,7 +273,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.275528+01:00"
+    created: "2026-01-23T19:38:50.070294+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 426ae5eb5338b0f72323baedc29cb3926a233df4527fe0e91a48eb74f7b43a49
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -316,7 +316,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.274713+01:00"
+    created: "2026-01-23T19:38:50.069916+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 63ceb6b935d46105e15f3ef877a8e4870f47321acb6bae5c190158c952a750e9
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -353,7 +353,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.273571+01:00"
+    created: "2026-01-23T19:38:50.069527+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 914bf15f3563105ccb929a53cab52c2623c6f2080e86320f3e97db620a8a7647
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -388,7 +388,7 @@ entries:
           image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-01-23T19:03:39.273171+01:00"
+    created: "2026-01-23T19:38:50.06842+01:00"
     description: Helm chart for the Continuous Monitoring service
     digest: 6219a591c30713b8afd5a43b5030680e3c545f85ff7cece7a56b20c295026e6c
     home: https://github.com/firasmosbehi/continuous-monitoring-chart
@@ -406,4 +406,4 @@ entries:
     urls:
     - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.2.tgz
     version: 0.1.2
-generated: "2026-01-23T18:38:23.99428832Z"
+generated: "2026-01-23T19:38:50.065594+01:00"
