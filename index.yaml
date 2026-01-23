@@ -3,6 +3,58 @@ entries:
   continuous-monitoring:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "Add optional Postgres and MySQL test databases with built-in metrics exporters and Prometheus scrape configs."
+        - kind: security
+          description: "Switch node-exporter default image to the master digest to clear known HIGH CVEs (selinux 1.13.0, patched Go stdlib)."
+        - kind: security
+          description: "Refresh defaults to Grafana 12.3.1, Prometheus 3.5.1, Loki/Promtail 3.6.4, node-exporter 1.10.2, and kube-state-metrics 2.18.0 to reduce CVEs."
+        - kind: security
+          description: "Keep all default images pinned by digest to avoid pulling vulnerable variants."
+      artifacthub.io/images: |
+        - name: grafana
+          image: grafana/grafana:12.3.1@sha256:2175aaa91c96733d86d31cf270d5310b278654b03f5718c59de12a865380a31f
+        - name: prometheus
+          image: prom/prometheus:v3.5.1@sha256:38c3b05c3bc744ff1b0b7b4eb82196026442845e62a1e2073795565da506d7a2
+        - name: loki
+          image: grafana/loki:3.6.4@sha256:be31579ac047e9f78b81e48f3b69d3af709e7299b431d5aa78bcda43382f9511
+        - name: promtail
+          image: grafana/promtail:3.6.4@sha256:ba2f727003e28541bf8a9b9ff92a8adbe5a48f1cfe388493f9266bbd94891fe3
+        - name: node-exporter
+          image: quay.io/prometheus/node-exporter:master@sha256:5056097aa05bbb4dc22039cce8f2afa04d2a5223170d8d9b27b409955e3eb19d
+        - name: kube-state-metrics
+          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0@sha256:1545919b72e3ae035454fc054131e8d0f14b42ef6fc5b2ad5c751cafa6b2130e
+        - name: postgres
+          image: postgres:17.2-alpine@sha256:7e5df973a74872482e320dcbdeb055e178d6f42de0558b083892c50cda833c96
+        - name: postgres-exporter
+          image: quay.io/prometheuscommunity/postgres-exporter:v0.16.0@sha256:6999a7657e2f2fb0ca6ebf417213eebf6dc7d21b30708c622f6fcb11183a2bb0
+        - name: mysql
+          image: mysql:8.4@sha256:63e8ae20eaef51da56723dbeea68dc75e8baa50429f641ba88e8058ce81e17e2
+        - name: mysqld-exporter
+          image: prom/mysqld-exporter:v0.15.0@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e
+    apiVersion: v2
+    appVersion: 0.1.1
+    created: "2026-01-23T18:03:02.209107235Z"
+    description: Helm chart for the Continuous Monitoring service
+    digest: 21e5b5c29687047f71ca21e0378f3a5710bbade8a053e96cb4b3c157d9a71671
+    home: https://github.com/firasmosbehi/continuous-monitoring-chart
+    icon: https://raw.githubusercontent.com/firasmosbehi/continuous-monitoring-chart/main/assets/chart-icon.svg
+    keywords:
+    - monitoring
+    - observability
+    - continuous
+    maintainers:
+    - email: firas.mosbehi@insat.ucar.tn
+      name: Firas Mosbehi
+    name: continuous-monitoring
+    sources:
+    - https://github.com/firasmosbehi/continuous-monitoring-chart
+    type: application
+    urls:
+    - https://github.com/firasmosbehi/continuous-monitoring-chart/releases/download/continuous-monitoring-0.1.11/continuous-monitoring-0.1.11.tgz
+    version: 0.1.11
+  - annotations:
+      artifacthub.io/changes: |
         - kind: security
           description: "Switch node-exporter default image to the master digest to clear known HIGH CVEs (selinux 1.13.0, patched Go stdlib)."
         - kind: security
@@ -300,4 +352,4 @@ entries:
     urls:
     - https://firasmosbehi.github.io/continuous-monitoring-chart/continuous-monitoring-0.1.2.tgz
     version: 0.1.2
-generated: "2026-01-23T18:38:29.358612+01:00"
+generated: "2026-01-23T18:03:02.209147172Z"
