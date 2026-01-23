@@ -59,15 +59,12 @@ spec:
         - name: mysql-exporter
           image: "{{ include "continuous-monitoring.image" (list .Values.databases.mysql.exporter.image.repository .Values.databases.mysql.exporter.image.tag .Values.databases.mysql.exporter.image.digest) }}"
           imagePullPolicy: {{ .Values.databases.mysql.exporter.image.pullPolicy }}
-          command: ["/bin/sh","-c"]
           args:
-            - mysqld_exporter --config.data-source-name=$DATA_SOURCE_NAME
-          env:
-            - name: DATA_SOURCE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
-                  key: dsn
+            - --config.my-cnf=/etc/mysql-exporter/my.cnf
+          volumeMounts:
+            - name: mysql-exporter-config
+              mountPath: /etc/mysql-exporter
+              readOnly: true
           ports:
             - containerPort: {{ .Values.databases.mysql.service.exporterPort }}
               name: metrics
@@ -88,11 +85,17 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if not .Values.databases.mysql.persistence.enabled }}
       volumes:
+        - name: mysql-exporter-config
+          secret:
+            secretName: {{ default (printf "%s-mysql-credentials" (include "continuous-monitoring.fullname" .)) .Values.databases.mysql.auth.existingSecret }}
+            items:
+              - key: my.cnf
+                path: my.cnf
+        {{- if not .Values.databases.mysql.persistence.enabled }}
         - name: data
           emptyDir: {}
-      {{- end }}
+        {{- end }}
   {{- if .Values.databases.mysql.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
